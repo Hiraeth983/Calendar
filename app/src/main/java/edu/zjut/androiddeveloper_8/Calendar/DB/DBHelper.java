@@ -18,18 +18,18 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // 初始化数据库的表结构，执行一条建表的SQL语句
-        String SQL_TABLE = "CREATE TABLE " + Schedule.TABLE_NAME + " ("
-                + Schedule._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," // 主键自增
-                + Schedule.COLUMN_TITLE + " TEXT NOT NULL, "
-                + Schedule.COLUMN_LOCATE + " TEXT NOT NULL, "
-                + Schedule.COLUMN_TIME_SLOT + " TEXT NOT NULL, "
-                + Schedule.COLUMN_BEGIN_TIME + " TEXT NOT NULL, "
-                + Schedule.COLUMN_END_TIME + " TEXT NOT NULL, "
-                + Schedule.COLUMN_REPEAT + " TEXT NOT NULL, "
-                + Schedule.COLUMN_IMPORTANT + " TEXT NOT NULL, "
-                + Schedule.COLUMN_ACCOUNT + " TEXT NOT NULL, "
-                + Schedule.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
-                + Schedule.COLUMN_TIME_ZONE + " TEXT DEFAULT \"GMT+8:00 中国标准时间\");";
+        String SQL_TABLE = "CREATE TABLE " + ScheduleDB.TABLE_NAME + " ("
+                + ScheduleDB._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," // 主键自增
+                + ScheduleDB.COLUMN_TITLE + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_LOCATE + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_TIME_SLOT + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_BEGIN_TIME + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_END_TIME + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_REPEAT + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_IMPORTANT + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_ACCOUNT + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
+                + ScheduleDB.COLUMN_TIME_ZONE + " TEXT DEFAULT \"GMT+8:00 中国标准时间\");";
 
         sqLiteDatabase.execSQL(SQL_TABLE);
 //        sqLiteDatabase.execSQL("insert into schedule values(1,'标题','浙江省杭州市','全天','2022-05-26 14:55:12','2022-05-26 14:55:30','重复','重要提醒','我的日历','描述',null);");

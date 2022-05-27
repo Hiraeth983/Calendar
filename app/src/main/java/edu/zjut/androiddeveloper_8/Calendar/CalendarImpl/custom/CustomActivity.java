@@ -1,8 +1,11 @@
 package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.custom;
 
+import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.getDateFormatter;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -20,13 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.zjut.androiddeveloper_8.Calendar.Utils.LunarCalendarFestivalUtils;
+import edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter;
+
 import edu.zjut.androiddeveloper_8.Calendar.Adapter.ScheduleAdapter;
-import edu.zjut.androiddeveloper_8.Calendar.Article;
-import edu.zjut.androiddeveloper_8.Calendar.ArticleAdapter;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.base.activity.BaseActivity;
-import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.group.GroupItemDecoration;
-import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.group.GroupRecyclerView;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.ScheduleActivity;
+import edu.zjut.androiddeveloper_8.Calendar.DB.ScheduleDB;
 import edu.zjut.androiddeveloper_8.Calendar.Model.Schedule;
 import edu.zjut.androiddeveloper_8.calendarview.Calendar;
 import edu.zjut.androiddeveloper_8.calendarview.CalendarLayout;
@@ -56,7 +59,7 @@ public class CustomActivity extends BaseActivity implements
 
     RecyclerView mRecyclerView;
 
-    private List<Schedule> scheduleList = new ArrayList<>();
+    private List<Object> scheduleList = new ArrayList<>();
 
     private FloatingActionButton mCurrentDay;
 
@@ -86,15 +89,23 @@ public class CustomActivity extends BaseActivity implements
 
         mCalendarView = findViewById(R.id.calendarView);
 
+        // 自定义参数列表
+        String[] projection = {ScheduleDB._ID,
+                ScheduleDB.COLUMN_TITLE,
+                ScheduleDB.COLUMN_BEGIN_TIME,
+                ScheduleDB.COLUMN_END_TIME
+        };
+        String selection = ScheduleDB.COLUMN_BEGIN_TIME + " between ? and ?";
+        String[] args = {MyDateFormatter.getStartTime(new Date()), MyDateFormatter.getEndTime(new Date())};
+        // 获取当日所有日程信息
+        Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, selection, args, null);
         // 日程列表初始化
-        scheduleList.add(new Schedule(1,"(无标题)","12:30","13:30"));
-        scheduleList.add(new Schedule(2,"准备课设","12:30","13:30"));
-        scheduleList.add(new Schedule(3,"写实验报告","12:30","13:30"));
-        mRecyclerView = (RecyclerView)findViewById(R.id.schedule_recycler_view);
+        scheduleList = toScheduleList(cursor);
+        mRecyclerView = (RecyclerView) findViewById(R.id.schedule_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        ScheduleAdapter fruitAdapter = new ScheduleAdapter(scheduleList);
-        mRecyclerView.setAdapter(fruitAdapter);
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
+        mRecyclerView.setAdapter(scheduleAdapter);
 
         // 设置当前日期定位悬浮按钮监听事件
         mCurrentDay = findViewById(R.id.currentDay);
@@ -239,6 +250,43 @@ public class CustomActivity extends BaseActivity implements
         mYear = mCalendarView.getCurYear();
         mTextMonthDay.setText(mCalendarView.getCurMonth() + "月" + mCalendarView.getCurDay() + "日");
         mTextLunar.setText("今日");
+    }
+
+    public List<Object> toScheduleList(Cursor cursor) {
+        List<Object> temp = new ArrayList<>();
+        // 拼接日期字符串
+        String date = "";
+        // 使用工具类
+        LunarCalendarFestivalUtils festival = new LunarCalendarFestivalUtils();
+        festival.initLunarCalendarInfo(getDateFormatter(new Date(), "yyyy-MM-dd"));
+//        festival.initLunarCalendarInfo("2022-05-21");
+        System.out.println();
+        date += getDateFormatter(new Date(), "MM月dd") + festival.getWeekOfDate(new Date()) + " ";
+        date += "农历" + festival.getLunarMonth() + "月" + festival.getLunarDay() + " ";
+        date += festival.getLunarTerm() + " ";
+        date += festival.getSolarFestival() + " ";
+        date += festival.getLunarFestival() + " ";
+
+        temp.add(date);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                // 获取对印的索引
+                int _idIndex = cursor.getColumnIndex(ScheduleDB._ID);
+                int titleIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_TITLE);
+                int beginTimeIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_BEGIN_TIME);
+                int endTimeIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_END_TIME);
+
+                // 获取对应值
+                String _id = cursor.getString(_idIndex);
+                String title = cursor.getString(titleIndex);
+                String beginTime = cursor.getString(beginTimeIndex);
+                String endTime = cursor.getString(endTimeIndex);
+
+                // 规范化数据并插入list
+                temp.add(new Schedule(Integer.parseInt(_id), title, beginTime.substring(11, 16), endTime.substring(11, 16)));
+            }
+        }
+        return temp;
     }
 
     @Override

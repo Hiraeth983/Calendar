@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 
 import java.io.Serializable;
 
-public class Schedule implements Serializable, BaseColumns {
+public class ScheduleDB implements Serializable, BaseColumns {
 
     public static final String CONTENT_AUTHORITY = "edu.zjut.androiddeveloper_8.Calendar";
 
