@@ -1,4 +1,4 @@
-package edu.zjut.androiddeveloper_8.Calendar.Schedule;
+package edu.zjut.androiddeveloper_8.Calendar.DB;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

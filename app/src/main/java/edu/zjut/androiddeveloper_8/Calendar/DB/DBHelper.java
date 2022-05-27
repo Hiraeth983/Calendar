@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import edu.zjut.androiddeveloper_8.Calendar.Schedule.Schedule;
-
 
 public class DBHelper extends SQLiteOpenHelper {
 

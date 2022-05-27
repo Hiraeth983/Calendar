@@ -20,13 +20,13 @@
         android:padding="5dp">
 
         <LinearLayout
-            android:id="@+id/tine_slot"
+            android:id="@+id/item_time_slot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/begin_time"
+                android:id="@+id/item_begin_time"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -35,7 +35,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/end_time"
+                android:id="@+id/item_end_time"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -52,7 +52,7 @@
             android:background="@drawable/schedule_shape"/>
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/item_title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:ellipsize="end"

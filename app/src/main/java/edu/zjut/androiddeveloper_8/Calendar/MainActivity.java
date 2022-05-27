@@ -17,7 +17,6 @@ import edu.zjut.androiddeveloper_8.calendarview.CalendarLayout;
 import edu.zjut.androiddeveloper_8.calendarview.CalendarView;
 import edu.zjut.androiddeveloper_8.calendarview.TrunkBranchAnnals;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.base.activity.BaseActivity;
-import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.mix.MixActivity;
 import edu.zjut.androiddeveloper_8.Calendar.R;
 
 import java.util.HashMap;
@@ -297,9 +296,6 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_mix:
-                MixActivity.show(this);
-                break;
         }
     }
 
