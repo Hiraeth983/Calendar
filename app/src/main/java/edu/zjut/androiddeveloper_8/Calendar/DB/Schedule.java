@@ -1,4 +1,4 @@
-package edu.zjut.androiddeveloper_8.Calendar.Schedule;
+package edu.zjut.androiddeveloper_8.Calendar.DB;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -13,7 +13,7 @@ public class Schedule implements Serializable, BaseColumns {
 
     public static final String PATH_CONTACTS = "schedule";
 
-    // content://com.haibin.calendar/calendar
+    // content://edu.zjut.androiddeveloper_8.Calendar/schedule
     public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_URI, PATH_CONTACTS);
 
     public static final String TABLE_NAME = "schedule";

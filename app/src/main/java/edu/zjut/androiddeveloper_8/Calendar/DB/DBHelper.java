@@ -4,12 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import edu.zjut.androiddeveloper_8.Calendar.Schedule.Schedule;
-
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "schedule.db";
+    public static final String DATABASE_NAME = "calendar.db";
 
     public static final int DATABASE_VERSION = 1;
 
@@ -34,6 +32,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + Schedule.COLUMN_TIME_ZONE + " TEXT DEFAULT \"GMT+8:00 中国标准时间\");";
 
         sqLiteDatabase.execSQL(SQL_TABLE);
+//        sqLiteDatabase.execSQL("insert into schedule values(1,'标题','浙江省杭州市','全天','2022-05-26 14:55:12','2022-05-26 14:55:30','重复','重要提醒','我的日历','描述',null);");
+
     }
 
     @Override

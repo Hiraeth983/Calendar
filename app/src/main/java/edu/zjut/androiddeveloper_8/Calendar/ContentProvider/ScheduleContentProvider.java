@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 
 
 import edu.zjut.androiddeveloper_8.Calendar.DB.DBHelper;
-import edu.zjut.androiddeveloper_8.Calendar.Schedule.Schedule;
+import edu.zjut.androiddeveloper_8.Calendar.DB.Schedule;
 
 public class ScheduleContentProvider extends ContentProvider {
 
@@ -37,9 +37,9 @@ public class ScheduleContentProvider extends ContentProvider {
     public boolean onCreate() {
         mDBHelper = new DBHelper(getContext());
         // 初始化数据库信息
-//        SQLiteDatabase db = mDBHelper.getWritableDatabase();
+        SQLiteDatabase db = mDBHelper.getWritableDatabase();
 //        db.execSQL("delete from schedule");
-//        db.execSQL("insert into schedule values(1,'标题','浙江省杭州市','全天','2022-05-26 14:55:12','2022-05-26 14:55:30','重复','重要提醒','我的日历','描述',null);");
+        db.execSQL("insert into schedule values(null,'标题','浙江省杭州市','全天','2022-05-26 14:55:12','2022-05-26 14:55:30','重复','重要提醒','我的日历','描述',null);");
         return true;
     }
 

@@ -9,20 +9,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import edu.zjut.androiddeveloper_8.Calendar.Adapter.ScheduleAdapter;
 import edu.zjut.androiddeveloper_8.Calendar.Article;
 import edu.zjut.androiddeveloper_8.Calendar.ArticleAdapter;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.base.activity.BaseActivity;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.group.GroupItemDecoration;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.group.GroupRecyclerView;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.ScheduleActivity;
+import edu.zjut.androiddeveloper_8.Calendar.Model.Schedule;
 import edu.zjut.androiddeveloper_8.calendarview.Calendar;
 import edu.zjut.androiddeveloper_8.calendarview.CalendarLayout;
 import edu.zjut.androiddeveloper_8.calendarview.CalendarView;
@@ -49,7 +54,9 @@ public class CustomActivity extends BaseActivity implements
 
     CalendarLayout mCalendarLayout;
 
-    GroupRecyclerView mRecyclerView;
+    RecyclerView mRecyclerView;
+
+    private List<Schedule> scheduleList = new ArrayList<>();
 
     private FloatingActionButton mCurrentDay;
 
@@ -78,6 +85,16 @@ public class CustomActivity extends BaseActivity implements
         mRelativeTool = findViewById(R.id.rl_tool);
 
         mCalendarView = findViewById(R.id.calendarView);
+
+        // 日程列表初始化
+        scheduleList.add(new Schedule(1,"(无标题)","12:30","13:30"));
+        scheduleList.add(new Schedule(2,"准备课设","12:30","13:30"));
+        scheduleList.add(new Schedule(3,"写实验报告","12:30","13:30"));
+        mRecyclerView = (RecyclerView)findViewById(R.id.schedule_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        ScheduleAdapter fruitAdapter = new ScheduleAdapter(scheduleList);
+        mRecyclerView.setAdapter(fruitAdapter);
 
         // 设置当前日期定位悬浮按钮监听事件
         mCurrentDay = findViewById(R.id.currentDay);
@@ -252,11 +269,11 @@ public class CustomActivity extends BaseActivity implements
         mCalendarView.setSchemeDate(map);
 
 
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new GroupItemDecoration<String, Article>());
-        mRecyclerView.setAdapter(new ArticleAdapter(this));
-        mRecyclerView.notifyDataSetChanged();
+//        mRecyclerView = findViewById(R.id.recyclerView);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mRecyclerView.addItemDecoration(new GroupItemDecoration<String, Article>());
+//        mRecyclerView.setAdapter(new ArticleAdapter(this));
+//        mRecyclerView.notifyDataSetChanged();
     }
 
 
