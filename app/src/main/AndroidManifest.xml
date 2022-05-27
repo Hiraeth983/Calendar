@@ -4,6 +4,7 @@
     package="edu.zjut.androiddeveloper_8.Calendar">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -13,8 +14,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <!--        <activity android:name=".MainActivity">-->
-        <activity android:name="edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.custom.CustomActivity"
+        <activity
+            android:name=".CalendarImpl.custom.CustomActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,14 +23,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="edu.zjut.androiddeveloper_8.Calendar.TestActivity" />
-        <activity android:name="edu.zjut.androiddeveloper_8.Calendar.CalendarActivity" />
-        <activity android:name="edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.ScheduleActivity" />
-        <!--        <activity android:name=".mix.MixActivity" />-->
+        <activity android:name=".TestActivity" />
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".CalendarImpl.schedule.ScheduleActivity" />
+        <activity android:name=".CalendarImpl.schedule.ScheduleShowActivity" />
+        <activity android:name=".CalendarImpl.schedule.SchedulesShowActivity" />
 
         <provider
             android:name=".ContentProvider.ScheduleContentProvider"
             android:authorities="edu.zjut.androiddeveloper_8.Calendar"
             android:exported="false" />
     </application>
+
 </manifest>

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.SchedulesShowActivity;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.LunarCalendarFestivalUtils;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter;
 
@@ -47,8 +50,6 @@ public class CustomActivity extends BaseActivity implements
 
     TextView mTextLunar;
 
-    TextView mTextCurrentDay;
-
     CalendarView mCalendarView;
 
     RelativeLayout mRelativeTool;
@@ -65,10 +66,11 @@ public class CustomActivity extends BaseActivity implements
 
     private FloatingActionButton mAddScheduleFloatButton;
 
+    private ImageView allScheduleImageView;
+
     public static void show(Context context) {
         context.startActivity(new Intent(context, CustomActivity.class));
     }
-
 
     @Override
     protected int getLayoutId() {
@@ -79,6 +81,7 @@ public class CustomActivity extends BaseActivity implements
     @Override
     protected void initView() {
         setStatusBarDarkMode();
+
         mTextMonthDay = findViewById(R.id.tv_month_day);
 
         mTextYear = findViewById(R.id.tv_year);
@@ -89,23 +92,16 @@ public class CustomActivity extends BaseActivity implements
 
         mCalendarView = findViewById(R.id.calendarView);
 
-        // 自定义参数列表
-        String[] projection = {ScheduleDB._ID,
-                ScheduleDB.COLUMN_TITLE,
-                ScheduleDB.COLUMN_BEGIN_TIME,
-                ScheduleDB.COLUMN_END_TIME
-        };
-        String selection = ScheduleDB.COLUMN_BEGIN_TIME + " between ? and ?";
-        String[] args = {MyDateFormatter.getStartTime(new Date()), MyDateFormatter.getEndTime(new Date())};
-        // 获取当日所有日程信息
-        Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, selection, args, null);
-        // 日程列表初始化
-        scheduleList = toScheduleList(cursor);
-        mRecyclerView = (RecyclerView) findViewById(R.id.schedule_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
-        mRecyclerView.setAdapter(scheduleAdapter);
+        mRecyclerView = findViewById(R.id.schedule_recycler_view);
+
+        allScheduleImageView = findViewById(R.id.ib_schedule);
+        allScheduleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CustomActivity.this, SchedulesShowActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // 设置当前日期定位悬浮按钮监听事件
         mCurrentDay = findViewById(R.id.currentDay);
@@ -266,7 +262,7 @@ public class CustomActivity extends BaseActivity implements
         date += festival.getLunarTerm() + " ";
         date += festival.getSolarFestival() + " ";
         date += festival.getLunarFestival() + " ";
-
+        // 插入 list 开头字符串（日期信息）
         temp.add(date);
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -316,12 +312,22 @@ public class CustomActivity extends BaseActivity implements
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
         mCalendarView.setSchemeDate(map);
 
-
-//        mRecyclerView = findViewById(R.id.recyclerView);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerView.addItemDecoration(new GroupItemDecoration<String, Article>());
-//        mRecyclerView.setAdapter(new ArticleAdapter(this));
-//        mRecyclerView.notifyDataSetChanged();
+        // 自定义参数列表
+        String[] projection = {ScheduleDB._ID,
+                ScheduleDB.COLUMN_TITLE,
+                ScheduleDB.COLUMN_BEGIN_TIME,
+                ScheduleDB.COLUMN_END_TIME
+        };
+        String selection = ScheduleDB.COLUMN_BEGIN_TIME + " between ? and ?";
+        String[] args = {MyDateFormatter.getStartTime(new Date()), MyDateFormatter.getEndTime(new Date())};
+        // 获取当日所有日程信息
+        Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, selection, args, null);
+        // 日程列表初始化
+        scheduleList = toScheduleList(cursor);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
+        mRecyclerView.setAdapter(scheduleAdapter);
     }
 
 

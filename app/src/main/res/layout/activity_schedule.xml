@@ -28,7 +28,7 @@
             android:id="@+id/title_schedule"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/back"
+            android:layout_toEndOf="@id/back"
             android:gravity="center_vertical"
             android:paddingLeft="5dp"
             android:text="日程"
@@ -178,24 +178,12 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
-                        android:layout_toLeftOf="@+id/repeat_select_spinner_show"
+                        android:layout_marginEnd="30dp"
+                        android:layout_alignParentRight="true"
                         android:gravity="left|center"
                         android:text="不重复"
                         android:textColor="#b3b3b3"
-                        android:textSize="18dp" />
-
-                    <ImageButton
-                        android:id="@+id/repeat_select_spinner_show"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
-                        android:background="@color/white"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_right" />
-
+                        android:textSize="18sp" />
 
                 </RelativeLayout>
 
@@ -251,7 +239,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:thumbTint="@color/switch_color"
-                        android:trackTint="@color/switch_color"/>
+                        android:trackTint="@color/switch_color" />
 
                 </RelativeLayout>
 
@@ -318,24 +306,12 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
-                        android:layout_toLeftOf="@+id/account_select_spinner_show"
+                        android:layout_marginEnd="30dp"
+                        android:layout_alignParentRight="true"
                         android:gravity="left|center"
                         android:text="我的日历"
                         android:textColor="#b3b3b3"
                         android:textSize="18dp" />
-
-                    <ImageButton
-                        android:id="@+id/account_select_spinner_show"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
-                        android:background="@color/white"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_right" />
-
 
                 </RelativeLayout>
 
@@ -480,24 +456,12 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
-                        android:layout_toLeftOf="@+id/time_zone_select_spinner_show"
+                        android:layout_marginEnd="30dp"
+                        android:layout_alignParentRight="true"
                         android:gravity="left|center"
                         android:text="GMT+8:00 中国标准时间"
                         android:textColor="#b3b3b3"
                         android:textSize="18dp" />
-
-                    <ImageButton
-                        android:id="@+id/time_zone_select_spinner_show"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
-                        android:background="@color/white"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_right" />
-
 
                 </RelativeLayout>
 

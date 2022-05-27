@@ -18,7 +18,7 @@ import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.base.activity.BaseActiv
 import edu.zjut.androiddeveloper_8.Calendar.R;
 
 
-public class ScheduleActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ScheduleActivity extends BaseActivity {
 
     // TextView
     TextView mTitle,mLocate,mBeginTime,mEndTime,mRepeatSelect,mTimeZoneSelect;
@@ -89,24 +89,10 @@ public class ScheduleActivity extends BaseActivity implements LoaderManager.Load
             mTitle.setText("新建日程");
         } else {
             mTitle.setText("编辑日程");
-            getLoaderManager().initLoader(LOADER, null, this);
+            
         }
 
 
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 }

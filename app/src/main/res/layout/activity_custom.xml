@@ -59,24 +59,24 @@
                 tools:ignore="SmallSp" />
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/search_schedule"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_toLeftOf="@+id/all_schedule"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/bg_ripple">
+<!--        <FrameLayout-->
+<!--            android:id="@+id/search_schedule"-->
+<!--            android:layout_width="32dp"-->
+<!--            android:layout_height="32dp"-->
+<!--            android:layout_toLeftOf="@+id/all_schedule"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginRight="12dp"-->
+<!--            android:background="@drawable/bg_ripple">-->
 
-            <ImageView
-                android:id="@+id/ib_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_search"
-                app:tint="#000000" />
-        </FrameLayout>
+<!--            <ImageView-->
+<!--                android:id="@+id/ib_search"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:contentDescription="@string/app_name"-->
+<!--                android:scaleType="centerInside"-->
+<!--                android:src="@drawable/ic_search"-->
+<!--                app:tint="#000000" />-->
+<!--        </FrameLayout>-->
 
         <FrameLayout
             android:id="@+id/all_schedule"

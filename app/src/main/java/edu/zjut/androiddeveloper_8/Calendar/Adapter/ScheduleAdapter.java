@@ -1,6 +1,7 @@
 package edu.zjut.androiddeveloper_8.Calendar.Adapter;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,19 +17,6 @@ import edu.zjut.androiddeveloper_8.Calendar.R;
 public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Object> mScheduleList;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView begin_time;
-        TextView end_time;
-        TextView title;
-
-        public ViewHolder(@NonNull View view) {
-            super(view);
-            begin_time = (TextView) view.findViewById(R.id.item_begin_time);
-            end_time = (TextView) view.findViewById(R.id.item_end_time);
-            title = (TextView) view.findViewById(R.id.item_title);
-        }
-    }
-
     public ScheduleAdapter(List<Object> mScheduleList) {
         this.mScheduleList = mScheduleList;
     }
@@ -42,6 +30,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new DateHolder(view);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_schedule, parent, false);
+
             return new ScheduleHolder(view);
         }
     }
@@ -73,6 +62,15 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mScheduleList.size();
     }
 
+    // 自定义监听事件
+    private View.OnClickListener OnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // TODO 完成跳转到日程查看界面
+
+        }
+    };
+
     class DateHolder extends RecyclerView.ViewHolder {
         TextView textView;
 
@@ -92,6 +90,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             begin_time = (TextView) itemView.findViewById(R.id.item_begin_time);
             end_time = (TextView) itemView.findViewById(R.id.item_end_time);
             title = (TextView) itemView.findViewById(R.id.item_title);
+
+            // 添加点击监听，跳转到日程查看界面
+            begin_time.setOnClickListener(OnClickListener);
+            end_time.setOnClickListener(OnClickListener);
+            title.setOnClickListener(OnClickListener);
         }
     }
 }

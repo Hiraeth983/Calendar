@@ -78,7 +78,7 @@ public class ScheduleContentProvider extends ContentProvider {
         }
 
         // 设置 URI 通知，自动更新界面
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+//        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -164,7 +164,7 @@ public class ScheduleContentProvider extends ContentProvider {
             return null;
         }
 
-        getContext().getContentResolver().notifyChange(uri, null);
+//        getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, id);
     }
 
@@ -193,9 +193,9 @@ public class ScheduleContentProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Can't execute delete" + uri);
         }
-        if (result != 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
-        }
+//        if (result != 0) {
+//            getContext().getContentResolver().notifyChange(uri, null);
+//        }
         return result;
     }
 
@@ -277,17 +277,17 @@ public class ScheduleContentProvider extends ContentProvider {
         switch (match) {
             case SCHEDULES_ID:
                 result = database.update(ScheduleDB.TABLE_NAME, contentValues, s, strings);
-                if (result != 0) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
+//                if (result != 0) {
+//                    getContext().getContentResolver().notifyChange(uri, null);
+//                }
                 return result;
             case SCHEDULE_ID:
                 s = ScheduleDB._ID + " = ?";
                 strings = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 result = database.update(ScheduleDB.TABLE_NAME, contentValues, s, strings);
-                if (result != 0) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
+//                if (result != 0) {
+//                    getContext().getContentResolver().notifyChange(uri, null);
+//                }
                 return result;
 
             default:
