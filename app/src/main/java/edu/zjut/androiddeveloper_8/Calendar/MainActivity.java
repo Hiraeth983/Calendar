@@ -1,10 +1,22 @@
 package edu.zjut.androiddeveloper_8.Calendar;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,12 +24,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import edu.zjut.androiddeveloper_8.Calendar.SMS.SMSReceiverService;
 import edu.zjut.androiddeveloper_8.calendarview.Calendar;
 import edu.zjut.androiddeveloper_8.calendarview.CalendarLayout;
 import edu.zjut.androiddeveloper_8.calendarview.CalendarView;
 import edu.zjut.androiddeveloper_8.calendarview.TrunkBranchAnnals;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.base.activity.BaseActivity;
-import edu.zjut.androiddeveloper_8.Calendar.R;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +65,8 @@ public class MainActivity extends BaseActivity implements
 
     private AlertDialog mFuncDialog;
 
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -62,6 +76,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void initView() {
         setStatusBarDarkMode();
+
         mTextMonthDay = findViewById(R.id.tv_month_day);
         mTextYear = findViewById(R.id.tv_year);
         mTextLunar = findViewById(R.id.tv_lunar);
@@ -260,6 +275,8 @@ public class MainActivity extends BaseActivity implements
 //        findViewById(R.id.ll_progress).setOnClickListener(this);
 //        findViewById(R.id.ll_custom).setOnClickListener(this);
         findViewById(R.id.ll_full).setOnClickListener(this);
+
+
     }
 
     @Override
@@ -413,5 +430,7 @@ public class MainActivity extends BaseActivity implements
         mTextMonthDay.setText(String.valueOf(year));
         Log.e("onYearChange", " 年份变化 " + year);
     }
+
+
 
 }
