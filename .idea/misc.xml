@@ -16,6 +16,9 @@
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/custom_week_bar.xml" value="0.13958333333333334" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/fragment_pager.xml" value="0.13958333333333334" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_article.xml" value="0.13958333333333334" />
+        <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_article_group.xml" value="0.245018115942029" />
+        <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_schedule.xml" value="0.2854251012145749" />
+        <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_string.xml" value="0.245018115942029" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/calendarview/src/main/res/drawable/cv_bg_material.xml" value="0.1175" />
       </map>
     </option>
