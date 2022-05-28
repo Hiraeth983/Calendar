@@ -106,7 +106,7 @@
                     android:gravity="left|center"
                     android:text="标题"
                     android:textColor="@color/add_schedule_background"
-                    android:textSize="18dp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -135,7 +135,7 @@
                 android:gravity="left|center"
                 android:text="时间段： 10:00 - 13:00"
                 android:textColor="#b3b3b3"
-                android:textSize="18dp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -156,7 +156,7 @@
                 android:gravity="left|center"
                 android:text="日    期： 5月25日星期三"
                 android:textColor="#b3b3b3"
-                android:textSize="18dp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -206,7 +206,7 @@
                         android:gravity="left|center"
                         android:text="重复"
                         android:textColor="@color/black"
-                        android:textSize="18dp" />
+                        android:textSize="15sp" />
 
 
                     <TextView
@@ -220,7 +220,7 @@
                         android:gravity="left|center"
                         android:text="不重复"
                         android:textColor="#b3b3b3"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
 
@@ -267,7 +267,7 @@
                         android:gravity="left|center"
                         android:text="重要提醒"
                         android:textColor="@color/black"
-                        android:textSize="18dp" />
+                        android:textSize="15sp" />
 
                     <Switch
                         android:id="@+id/important_switch_show"
@@ -333,7 +333,7 @@
                         android:gravity="left|center"
                         android:text="账户"
                         android:textColor="@color/black"
-                        android:textSize="18dp" />
+                        android:textSize="15sp" />
 
 
                     <TextView
@@ -348,7 +348,7 @@
                         android:gravity="left|center"
                         android:text="我的日历"
                         android:textColor="#b3b3b3"
-                        android:textSize="18dp" />
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
 
@@ -388,7 +388,7 @@
                     android:gravity="left|center"
                     android:text="说明"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -440,7 +440,7 @@
                     android:gravity="left|center"
                     android:text="地点"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -485,7 +485,7 @@
                         android:gravity="left|center"
                         android:text="时区"
                         android:textColor="@color/black"
-                        android:textSize="18dp" />
+                        android:textSize="15sp" />
 
 
                     <TextView
@@ -500,7 +500,7 @@
                         android:gravity="left|center"
                         android:text="GMT+8:00 中国标准时间"
                         android:textColor="#b3b3b3"
-                        android:textSize="18dp" />
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
 
