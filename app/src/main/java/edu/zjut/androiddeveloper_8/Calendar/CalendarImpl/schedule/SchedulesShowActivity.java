@@ -2,14 +2,19 @@ package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule;
 
 import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.getDateFormatter;
 
+import android.app.AlertDialog;
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,6 +53,12 @@ public class SchedulesShowActivity extends BaseActivity {
     @Override
     protected void initView() {
         backMainImageView = findViewById(R.id.back_main);
+        backMainImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         searchScheduleImageView = findViewById(R.id.ib_search);
 
@@ -61,12 +72,15 @@ public class SchedulesShowActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     @Override
     protected void initData() {
+        init();
+    }
+
+    // 数据的获取
+    public void init() {
         // 自定义参数列表
         String[] projection = {ScheduleDB._ID,
                 ScheduleDB.COLUMN_TITLE,
@@ -83,7 +97,6 @@ public class SchedulesShowActivity extends BaseActivity {
         scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Toast.makeText(MainActivity.this, "点击了：" + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SchedulesShowActivity.this, ScheduleShowActivity.class);
                 Schedule s = (Schedule) scheduleList.get(position);
                 Uri newUri = ContentUris.withAppendedId(ScheduleDB.CONTENT_URI, s.get_id());
@@ -94,6 +107,12 @@ public class SchedulesShowActivity extends BaseActivity {
             }
         });
         mRecyclerView.setAdapter(scheduleAdapter);
+    }
+
+    // 在全部日程页面按下返回键
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     public List<Object> toScheduleList(Cursor cursor) {
@@ -137,4 +156,11 @@ public class SchedulesShowActivity extends BaseActivity {
         }
         return temp;
     }
+
+    @Override
+    protected void onResume() {  // 自动更新
+        super.onResume();
+        init();
+    }
+
 }

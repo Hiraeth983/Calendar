@@ -2,12 +2,17 @@ package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule;
 
 import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.getDateFormatter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -43,7 +48,14 @@ public class ScheduleShowActivity extends BaseActivity {
 
     TextView mTimeZoneShow;
 
-    Uri mCurrentContactUri;
+    Uri mCurrentScheduleUri;
+
+    ImageView mBackImageView;
+
+    ImageView mEditSchedule;
+
+    ImageView mDeleteSchedule;
+
 
     @Override
     protected int getLayoutId() {
@@ -70,16 +82,34 @@ public class ScheduleShowActivity extends BaseActivity {
 
         mTimeZoneShow = findViewById(R.id.time_zone_select_show);
 
+        mBackImageView = findViewById(R.id.back);
+        mBackImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
+        mEditSchedule = findViewById(R.id.ib_edit_schedule);
+
+        mDeleteSchedule = findViewById(R.id.ib_delete_schedule);
+        mDeleteSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDeleteConfirmationDialog();
+            }
+        });
     }
 
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        mCurrentContactUri = intent.getData();
-        Log.i("currentContactUri", mCurrentContactUri + "");
+        mCurrentScheduleUri = intent.getData();
+        Log.i("currentContactUri", mCurrentScheduleUri + "");
+        init();
+    }
 
-
+    public void init() {
         // 自定义参数列表
         String[] projection = {ScheduleDB._ID,
                 ScheduleDB.COLUMN_TITLE,
@@ -94,7 +124,7 @@ public class ScheduleShowActivity extends BaseActivity {
                 ScheduleDB.COLUMN_TIME_ZONE
         };
         // 获取当前点击日程信息
-        Cursor cursor = getContentResolver().query(mCurrentContactUri, projection, null, null, null);
+        Cursor cursor = getContentResolver().query(mCurrentScheduleUri, projection, null, null, null);
         Schedule schedule = toSchedule(cursor);
 
         mTitleShow.setText(schedule.getTitle());
@@ -106,7 +136,41 @@ public class ScheduleShowActivity extends BaseActivity {
         mDescriptionShow.setText(schedule.getDescription());
         mLocateShow.setText(schedule.getLocate());
         mTimeZoneShow.setText(schedule.getTime_zone());
+    }
 
+    // 编辑界面的确认删除功能
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("删除当前日程？");
+        builder.setPositiveButton("delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                deleteProduct();
+            }
+        });
+        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    // 删除选中的日程
+    private void deleteProduct() {
+        if (mCurrentScheduleUri != null) {
+            int rowsDeleted = getContentResolver().delete(mCurrentScheduleUri, null, null);
+            if (rowsDeleted == 0) {
+                Toast.makeText(this, "删除失败",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "删除成功",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        finish();
     }
 
     public Schedule toSchedule(Cursor cursor) {
@@ -155,5 +219,11 @@ public class ScheduleShowActivity extends BaseActivity {
             schedule = new Schedule(Integer.parseInt(_id), title, locate, timeSlot, begin_time, end_time, repeat, important, account, description, timeZone);
         }
         return schedule;
+    }
+
+    @Override
+    protected void onResume() {  // 自动更新
+        super.onResume();
+        init();
     }
 }

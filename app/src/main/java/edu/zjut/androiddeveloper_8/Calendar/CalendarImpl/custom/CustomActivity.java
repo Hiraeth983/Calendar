@@ -316,6 +316,10 @@ public class CustomActivity extends BaseActivity implements
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
         mCalendarView.setSchemeDate(map);
 
+        init();
+    }
+
+    public void init() {
         // 自定义参数列表
         String[] projection = {ScheduleDB._ID,
                 ScheduleDB.COLUMN_TITLE,
@@ -395,5 +399,9 @@ public class CustomActivity extends BaseActivity implements
         mTextMonthDay.setText(String.valueOf(year));
     }
 
-
+    @Override
+    protected void onResume() {  // 自动更新
+        super.onResume();
+        init();
+    }
 }
