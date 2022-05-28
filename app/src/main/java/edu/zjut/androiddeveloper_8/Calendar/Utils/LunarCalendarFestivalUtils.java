@@ -405,6 +405,11 @@ public class LunarCalendarFestivalUtils {
      * @param currentDate
      */
     public void initLunarCalendarInfo(String currentDate){
+        // 判断日期格式并格式化为 YYYY-MM-DD
+        if (!currentDate.contains("-")) {
+            currentDate = currentDate.replace("年", "-");
+            currentDate = currentDate.replace("月", "-");
+        }
         String[] splitDate = currentDate.split("-");
         //设置生肖
         int year = Integer.parseInt(splitDate[0]);

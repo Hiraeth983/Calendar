@@ -1,6 +1,7 @@
 package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule;
 
 import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.getDateFormatter;
+import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.parseDateFormatter;
 
 import android.app.AlertDialog;
 import android.content.ContentUris;
@@ -42,6 +43,9 @@ public class SchedulesShowActivity extends BaseActivity {
     RecyclerView mRecyclerView;
 
     FloatingActionButton addSchedule;
+
+    // 用于定位给当前日期位置
+    int currentPosition = -1;
 
     private List<Object> scheduleList = new ArrayList<>();
 
@@ -88,7 +92,7 @@ public class SchedulesShowActivity extends BaseActivity {
                 ScheduleDB.COLUMN_END_TIME
         };
         // 获取所有日程信息
-        Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, null, null, null);
+        Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, null, null, "begin_time");
         // 日程列表初始化
         scheduleList = toScheduleList(cursor);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -107,6 +111,8 @@ public class SchedulesShowActivity extends BaseActivity {
             }
         });
         mRecyclerView.setAdapter(scheduleAdapter);
+        // 定位给当前日期的位置
+        mRecyclerView.smoothScrollToPosition(currentPosition);
     }
 
     // 在全部日程页面按下返回键
@@ -118,6 +124,8 @@ public class SchedulesShowActivity extends BaseActivity {
     public List<Object> toScheduleList(Cursor cursor) {
         List<Object> temp = new ArrayList<>();
         String flag = "";
+        String currentDate = MyDateFormatter.getDateFormatter(new Date(), "yyyy-MM-dd");
+        String currentDateOfChina = MyDateFormatter.getDateFormatter(new Date(), "yyyy年MM月dd");
 
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -133,15 +141,25 @@ public class SchedulesShowActivity extends BaseActivity {
                 String beginTime = cursor.getString(beginTimeIndex);
                 String endTime = cursor.getString(endTimeIndex);
 
+                // 获取当前日期日程信息 position 因前期日期数据格式不规范，故多做一种判断，离谱！！
+                if (currentDate.equals(beginTime.substring(0, 10)) || currentDateOfChina.equals(beginTime.substring(0, 10))) {
+                    // 当前list的大小作为位置即可且只需赋值一次
+                    if (currentPosition == -1)
+                        currentPosition = temp.size();
+                }
+
+                // 开始时间变化到下一天的情况
                 if (!beginTime.substring(0, 10).equals(flag)) {
                     flag = beginTime.substring(0, 10);
                     // 拼接日期字符串
                     String date = "";
                     // 使用工具类
+                    // String 转化为 Date
+                    Date myDate = parseDateFormatter(beginTime,"yyyy-MM-dd");
                     LunarCalendarFestivalUtils festival = new LunarCalendarFestivalUtils();
-                    festival.initLunarCalendarInfo(getDateFormatter(new Date(), "yyyy-MM-dd"));
-                    System.out.println();
-                    date += getDateFormatter(new Date(), "MM月dd") + festival.getWeekOfDate(new Date()) + " ";
+                    festival.initLunarCalendarInfo(getDateFormatter(myDate, "yyyy-MM-dd"));
+
+                    date += getDateFormatter(myDate, "MM月dd") + festival.getWeekOfDate(myDate) + " ";
                     date += "农历" + festival.getLunarMonth() + "月" + festival.getLunarDay() + " ";
                     date += festival.getLunarTerm() + " ";
                     date += festival.getSolarFestival() + " ";
