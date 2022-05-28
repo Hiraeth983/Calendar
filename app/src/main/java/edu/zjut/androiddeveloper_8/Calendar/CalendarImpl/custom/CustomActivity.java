@@ -3,15 +3,18 @@ package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.custom;
 import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.getDateFormatter;
 
 import android.annotation.SuppressLint;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.OnItemClickListener;
+import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.ScheduleShowActivity;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.SchedulesShowActivity;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.LunarCalendarFestivalUtils;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter;
@@ -256,7 +261,6 @@ public class CustomActivity extends BaseActivity implements
         LunarCalendarFestivalUtils festival = new LunarCalendarFestivalUtils();
         festival.initLunarCalendarInfo(getDateFormatter(new Date(), "yyyy-MM-dd"));
 //        festival.initLunarCalendarInfo("2022-05-21");
-        System.out.println();
         date += getDateFormatter(new Date(), "MM月dd") + festival.getWeekOfDate(new Date()) + " ";
         date += "农历" + festival.getLunarMonth() + "月" + festival.getLunarDay() + " ";
         date += festival.getLunarTerm() + " ";
@@ -327,6 +331,18 @@ public class CustomActivity extends BaseActivity implements
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
+        scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(CustomActivity.this, ScheduleShowActivity.class);
+                Schedule s = (Schedule) scheduleList.get(position);
+                Uri newUri = ContentUris.withAppendedId(ScheduleDB.CONTENT_URI, s.get_id());
+                Log.i("newUri", newUri + "");
+
+                intent.setData(newUri);
+                startActivity(intent);
+            }
+        });
         mRecyclerView.setAdapter(scheduleAdapter);
     }
 

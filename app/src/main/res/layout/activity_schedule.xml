@@ -36,6 +36,44 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <FrameLayout
+            android:id="@+id/edit_schedule"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/delete_schedule"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/bg_ripple">
+
+            <ImageView
+                android:id="@+id/ib_edit_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_edit"
+                app:tint="#000000" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/delete_schedule"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_ripple">
+
+            <ImageView
+                android:id="@+id/ib_delete_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_delete"
+                app:tint="#000000" />
+        </FrameLayout>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -95,7 +133,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="left|center"
-                android:text="开始：5月25日 10:00"
+                android:text="时间段： 10:00 - 13:00"
                 android:textColor="#b3b3b3"
                 android:textSize="18dp" />
 
@@ -116,7 +154,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="left|center"
-                android:text="结束：5月25日 13:00"
+                android:text="日    期： 5月25日星期三"
                 android:textColor="#b3b3b3"
                 android:textSize="18dp" />
 
@@ -175,11 +213,10 @@
                         android:id="@+id/repeat_select_show"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginEnd="30dp"
                         android:layout_alignParentRight="true"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="15dp"
                         android:gravity="left|center"
                         android:text="不重复"
                         android:textColor="#b3b3b3"
@@ -303,11 +340,11 @@
                         android:id="@+id/account_select_show"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginEnd="30dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="15dp"
                         android:gravity="left|center"
                         android:text="我的日历"
                         android:textColor="#b3b3b3"
@@ -394,13 +431,18 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <EditText
+                <TextView
                     android:id="@+id/locate_show"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_margin="15dp"
-                    android:background="@null"
-                    android:hint="地点" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="left|center"
+                    android:text="地点"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -441,7 +483,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
-                        android:layout_marginEnd="15dp"
                         android:layout_marginBottom="15dp"
                         android:gravity="left|center"
                         android:text="时区"
@@ -453,11 +494,11 @@
                         android:id="@+id/time_zone_select_show"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginEnd="30dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="15dp"
                         android:gravity="left|center"
                         android:text="GMT+8:00 中国标准时间"
                         android:textColor="#b3b3b3"
