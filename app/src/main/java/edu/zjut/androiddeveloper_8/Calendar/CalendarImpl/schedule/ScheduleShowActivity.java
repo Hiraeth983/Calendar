@@ -1,7 +1,5 @@
 package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule;
 
-import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.getDateFormatter;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,19 +12,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import edu.zjut.androiddeveloper_8.Calendar.Adapter.ScheduleAdapter;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.base.activity.BaseActivity;
 import edu.zjut.androiddeveloper_8.Calendar.DB.ScheduleDB;
 import edu.zjut.androiddeveloper_8.Calendar.Model.Schedule;
 import edu.zjut.androiddeveloper_8.Calendar.R;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.LunarCalendarFestivalUtils;
-import edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter;
 
 public class ScheduleShowActivity extends BaseActivity {
 
@@ -142,20 +134,25 @@ public class ScheduleShowActivity extends BaseActivity {
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("删除当前日程？");
-        builder.setPositiveButton("delete", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 deleteProduct();
             }
         });
-        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
             }
         });
+
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.black));
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(16);
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red));
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(16);
     }
 
     // 删除选中的日程
