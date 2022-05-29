@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class MyDateFormatter {
 
+    // TODO 时间格式被固定
     public static String getStartTime(Date date) {
         return getDateFormatter(date, "yyyy-MM-dd") + " 00:00";
     }

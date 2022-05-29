@@ -1,6 +1,7 @@
 package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.custom;
 
 import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.getDateFormatter;
+import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.parseDateFormatter;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
@@ -115,6 +116,7 @@ public class CustomActivity extends BaseActivity implements
             @Override
             public void onClick(View view) {
                 mCalendarView.scrollToCurrent();
+                init(new Date());
                 mCurrentDay.hide();
             }
         });
@@ -253,15 +255,15 @@ public class CustomActivity extends BaseActivity implements
         mTextLunar.setText("今日");
     }
 
-    public List<Object> toScheduleList(Cursor cursor) {
+    public List<Object> toScheduleList(Cursor cursor,Date _date) {
         List<Object> temp = new ArrayList<>();
         // 拼接日期字符串
         String date = "";
         // 使用工具类
         LunarCalendarFestivalUtils festival = new LunarCalendarFestivalUtils();
-        festival.initLunarCalendarInfo(getDateFormatter(new Date(), "yyyy-MM-dd"));
-//        festival.initLunarCalendarInfo("2022-05-21");
-        date += getDateFormatter(new Date(), "MM月dd") + festival.getWeekOfDate(new Date()) + " ";
+        festival.initLunarCalendarInfo(getDateFormatter(_date, "yyyy-MM-dd"));
+
+        date += getDateFormatter(_date, "MM月dd") + festival.getWeekOfDate(_date) + " ";
         date += "农历" + festival.getLunarMonth() + "月" + festival.getLunarDay() + " ";
         date += festival.getLunarTerm() + " ";
         date += festival.getSolarFestival() + " ";
@@ -316,10 +318,10 @@ public class CustomActivity extends BaseActivity implements
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
         mCalendarView.setSchemeDate(map);
 
-        init();
+        init(new Date());
     }
 
-    public void init() {
+    public void init(Date date) {
         // 自定义参数列表
         String[] projection = {ScheduleDB._ID,
                 ScheduleDB.COLUMN_TITLE,
@@ -327,11 +329,11 @@ public class CustomActivity extends BaseActivity implements
                 ScheduleDB.COLUMN_END_TIME
         };
         String selection = ScheduleDB.COLUMN_BEGIN_TIME + " between ? and ?";
-        String[] args = {MyDateFormatter.getStartTime(new Date()), MyDateFormatter.getEndTime(new Date())};
+        String[] args = {MyDateFormatter.getStartTime(date), MyDateFormatter.getEndTime(date)};
         // 获取当日所有日程信息
         Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, selection, args, null);
         // 日程列表初始化
-        scheduleList = toScheduleList(cursor);
+        scheduleList = toScheduleList(cursor,date);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
@@ -387,6 +389,7 @@ public class CustomActivity extends BaseActivity implements
         mYear = calendar.getYear();
         if (isClick) {
             mCurrentDay.show();
+            init(parseDateFormatter(calendar.getYear() + "-" + calendar.getMonth() + "-" + calendar.getDay(), "yyyy-MM-dd"));
         }
         Log.e("onDateSelected", "  -- " + calendar.getYear() +
                 "  --  " + calendar.getMonth() +
@@ -402,6 +405,6 @@ public class CustomActivity extends BaseActivity implements
     @Override
     protected void onResume() {  // 自动更新
         super.onResume();
-        init();
+        init(new Date());
     }
 }

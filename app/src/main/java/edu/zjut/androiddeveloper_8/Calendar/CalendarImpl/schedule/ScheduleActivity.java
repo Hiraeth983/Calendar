@@ -129,7 +129,7 @@ public class ScheduleActivity extends BaseActivity {
                         .setOnChoose("选择", new Function1<Long, Unit>() {
                             @Override
                             public Unit invoke(Long aLong) {
-                                String begin_time = MyDateFormatter.getDateFormatter(new Date(aLong), "yyyy年MM月dd日 HH:mm");
+                                String begin_time = MyDateFormatter.getDateFormatter(new Date(aLong), "yyyy-MM-dd HH:mm:ss");
 //                                Toast.makeText(context, begin_time, Toast.LENGTH_SHORT).show();
                                 mBeginTime.setText(begin_time);
                                 return null;
@@ -166,7 +166,7 @@ public class ScheduleActivity extends BaseActivity {
                         .setOnChoose("选择", new Function1<Long, Unit>() {
                             @Override
                             public Unit invoke(Long aLong) {
-                                String end_time = MyDateFormatter.getDateFormatter(new Date(aLong), "yyyy年MM月dd日 HH:mm");
+                                String end_time = MyDateFormatter.getDateFormatter(new Date(aLong), "yyyy-MM-dd HH:mm:ss");
 //                                Toast.makeText(context, begin_time, Toast.LENGTH_SHORT).show();
                                 mEndTime.setText(end_time);
                                 return null;

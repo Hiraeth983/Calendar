@@ -51,8 +51,8 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
-                android:tint="@color/black"
-                android:src="@drawable/ic_agree" />
+                android:src="@drawable/ic_agree"
+                app:tint="@color/black" />
 
         </FrameLayout>
 

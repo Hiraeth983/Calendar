@@ -216,7 +216,6 @@ public class SchedulesShowActivity extends BaseActivity {
         mRecyclerView.smoothScrollToPosition(currentPosition >= 0 ? currentPosition : 0);
     }
 
-
     // 在全部日程页面按下返回键
     @Override
     public void onBackPressed() {
