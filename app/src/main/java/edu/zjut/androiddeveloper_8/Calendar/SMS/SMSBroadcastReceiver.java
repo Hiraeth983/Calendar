@@ -4,9 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.SmsMessage;
+import android.text.TextUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import edu.zjut.androiddeveloper_8.Calendar.Contact.adapter.MyCursorAdapter;
+import edu.zjut.androiddeveloper_8.Calendar.Contact.db.Contact;
 
 /**
  * 配置广播接收者:
@@ -23,6 +27,7 @@ import java.util.Date;
 
 public class SMSBroadcastReceiver extends BroadcastReceiver {
     private static MessageListener mMessageListener;
+
 
     public SMSBroadcastReceiver() {
         super();
@@ -44,21 +49,19 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             System.out.println("短信内容:"+content);
             System.out.println("短信时间:"+time);
 
-            mMessageListener.OnReceived(content);
-
-
-            //如果短信来自5556,不再往下传递
-            if("5556".equals(sender)){
-                System.out.println(" abort ");
-                abortBroadcast();
-            }
+            mMessageListener.OnReceived(new String[]{sender,content});
+//            如果短信来自5556,不再往下传递
+//            if("5556".equals(sender)){
+//                System.out.println(" abort ");
+//                abortBroadcast();
+//            }
 
         }
     }
 
     // 回调接口
     public interface MessageListener {
-        public void OnReceived(String message);
+        public void OnReceived(String[] message);
     }
 
     public void setOnReceivedMessageListener(MessageListener messageListener) {

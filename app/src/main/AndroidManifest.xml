@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="edu.zjut.androiddeveloper_8.Calendar" >
+    package="edu.zjut.androiddeveloper_8.Calendar">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -16,39 +16,54 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute" >
-        <service
-            android:name=".SMS.SMSReceiverService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-        <!-- <activity android:name=".MainActivity"> -->
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+        <activity
+            android:name=".Contact.UserActivity"
+            android:exported="false" />
+        <activity android:name=".Contact.ContactActivity" />
         <activity
             android:name=".CalendarImpl.custom.CustomActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".SMS.SMSReceiverService"
+            android:enabled="true"
+            android:exported="true" /> <!-- <activity android:name=".MainActivity"> -->
         <activity android:name=".TestActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".CalendarImpl.schedule.ScheduleActivity" /> <!-- <activity android:name=".mix.MixActivity" /> -->
+
         <provider
             android:name=".ContentProvider.ScheduleContentProvider"
             android:authorities="edu.zjut.androiddeveloper_8.Calendar"
             android:exported="false" />
 
+        <provider
+            android:name=".Contact.db.MyContentProvider"
+            android:authorities="edu.zjut.androiddeveloper_8.Calendar.Contact"
+            android:exported="false" />
+
+
         <receiver
             android:name=".SMS.SMSBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.BROADCAST_SMS" >
-            <intent-filter android:priority="1000" >
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".SMS.SMSReceiver" />
+
+
+
+
     </application>
 
 </manifest>
