@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 
 
 import edu.zjut.androiddeveloper_8.Calendar.DB.DBHelper;
-import edu.zjut.androiddeveloper_8.Calendar.DB.Schedule;
+import edu.zjut.androiddeveloper_8.Calendar.DB.ScheduleDB;
 
 public class ScheduleContentProvider extends ContentProvider {
 
@@ -28,9 +28,9 @@ public class ScheduleContentProvider extends ContentProvider {
 
     // 单条和多条数据的匹配
     static {
-        uriMatcher.addURI(Schedule.CONTENT_AUTHORITY, Schedule.PATH_CONTACTS, SCHEDULES_ID);
+        uriMatcher.addURI(ScheduleDB.CONTENT_AUTHORITY, ScheduleDB.PATH_CONTACTS, SCHEDULES_ID);
         // # 此处代表列名
-        uriMatcher.addURI(Schedule.CONTENT_AUTHORITY, Schedule.PATH_CONTACTS + "/#", SCHEDULE_ID);
+        uriMatcher.addURI(ScheduleDB.CONTENT_AUTHORITY, ScheduleDB.PATH_CONTACTS + "/#", SCHEDULE_ID);
     }
 
     @Override
@@ -39,7 +39,8 @@ public class ScheduleContentProvider extends ContentProvider {
         // 初始化数据库信息
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
 //        db.execSQL("delete from schedule");
-        db.execSQL("insert into schedule values(null,'标题','浙江省杭州市','全天','2022-05-26 14:55:12','2022-05-26 14:55:30','重复','重要提醒','我的日历','描述',null);");
+//        db.execSQL("insert into schedule values(null,'标题','浙江省杭州市','全天','2022-05-26 14:55:12','2022-05-26 14:55:30','重复','重要提醒','我的日历','描述',null);");
+
         return true;
     }
 
@@ -64,13 +65,13 @@ public class ScheduleContentProvider extends ContentProvider {
         // 匹配
         switch (match) {
             case SCHEDULES_ID:
-                cursor = db.query(Schedule.TABLE_NAME, strings, s, strings1, null, null, s1);
+                cursor = db.query(ScheduleDB.TABLE_NAME, strings, s, strings1, null, null, s1);
                 break;
 
             case SCHEDULE_ID:
-                s = Schedule._ID + " = ?";
+                s = ScheduleDB._ID + " = ?";
                 strings1 = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                cursor = db.query(Schedule.TABLE_NAME, strings, s, strings1, null, null, s1);
+                cursor = db.query(ScheduleDB.TABLE_NAME, strings, s, strings1, null, null, s1);
                 break;
 
             default:
@@ -93,62 +94,62 @@ public class ScheduleContentProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
         // 验证数据的合法性（非空）
         // TODO 数据合法性数据类型未知，需验证，更新也需要
-        if (contentValues.containsKey(Schedule.COLUMN_TITLE)) {
-            String title = contentValues.getAsString(Schedule.COLUMN_TITLE);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_TITLE)) {
+            String title = contentValues.getAsString(ScheduleDB.COLUMN_TITLE);
             if (title == null) {
                 throw new IllegalArgumentException("Title is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_LOCATE)) {
-            String locate = contentValues.getAsString(Schedule.COLUMN_LOCATE);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_LOCATE)) {
+            String locate = contentValues.getAsString(ScheduleDB.COLUMN_LOCATE);
             if (locate == null) {
                 throw new IllegalArgumentException("Locate is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_TIME_SLOT)) {
-            String time_slot = contentValues.getAsString(Schedule.COLUMN_TIME_SLOT);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_TIME_SLOT)) {
+            String time_slot = contentValues.getAsString(ScheduleDB.COLUMN_TIME_SLOT);
             if (time_slot == null) {
                 throw new IllegalArgumentException("Time_slot is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_BEGIN_TIME)) {
-            String begin_time = contentValues.getAsString(Schedule.COLUMN_BEGIN_TIME);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_BEGIN_TIME)) {
+            String begin_time = contentValues.getAsString(ScheduleDB.COLUMN_BEGIN_TIME);
             if (begin_time == null) {
                 throw new IllegalArgumentException("Begin_time is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_END_TIME)) {
-            String end_time = contentValues.getAsString(Schedule.COLUMN_END_TIME);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_END_TIME)) {
+            String end_time = contentValues.getAsString(ScheduleDB.COLUMN_END_TIME);
             if (end_time == null) {
                 throw new IllegalArgumentException("End_time is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_REPEAT)) {
-            String repeat = contentValues.getAsString(Schedule.COLUMN_REPEAT);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_REPEAT)) {
+            String repeat = contentValues.getAsString(ScheduleDB.COLUMN_REPEAT);
             if (repeat == null) {
                 throw new IllegalArgumentException("Repeat is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_IMPORTANT)) {
-            String important = contentValues.getAsString(Schedule.COLUMN_IMPORTANT);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_IMPORTANT)) {
+            String important = contentValues.getAsString(ScheduleDB.COLUMN_IMPORTANT);
             if (important == null) {
                 throw new IllegalArgumentException("Important is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_ACCOUNT)) {
-            String account = contentValues.getAsString(Schedule.COLUMN_ACCOUNT);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_ACCOUNT)) {
+            String account = contentValues.getAsString(ScheduleDB.COLUMN_ACCOUNT);
             if (account == null) {
                 throw new IllegalArgumentException("Account is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_DESCRIPTION)) {
-            String description = contentValues.getAsString(Schedule.COLUMN_DESCRIPTION);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_DESCRIPTION)) {
+            String description = contentValues.getAsString(ScheduleDB.COLUMN_DESCRIPTION);
             if (description == null) {
                 throw new IllegalArgumentException("Description is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_TIME_ZONE)) {
-            String time_zone = contentValues.getAsString(Schedule.COLUMN_TIME_ZONE);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_TIME_ZONE)) {
+            String time_zone = contentValues.getAsString(ScheduleDB.COLUMN_TIME_ZONE);
             if (time_zone == null) {
                 throw new IllegalArgumentException("Time_zone is required");
             }
@@ -157,7 +158,7 @@ public class ScheduleContentProvider extends ContentProvider {
 
         // 插入获取可写的数据库
         SQLiteDatabase database = mDBHelper.getWritableDatabase();
-        long id = database.insert(Schedule.TABLE_NAME, null, contentValues);
+        long id = database.insert(ScheduleDB.TABLE_NAME, null, contentValues);
 
         // 插入失败报错
         if (id == -1) {
@@ -181,13 +182,13 @@ public class ScheduleContentProvider extends ContentProvider {
         int match = uriMatcher.match(uri);
         switch (match) {
             case SCHEDULES_ID:
-                result = db.delete(Schedule.TABLE_NAME, s, strings);
+                result = db.delete(ScheduleDB.TABLE_NAME, s, strings);
                 break;
 
             case SCHEDULE_ID:
-                s = Schedule._ID + " = ?";
+                s = ScheduleDB._ID + " = ?";
                 strings = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                result = db.delete(Schedule.TABLE_NAME, s, strings);
+                result = db.delete(ScheduleDB.TABLE_NAME, s, strings);
                 break;
 
             default:
@@ -209,62 +210,62 @@ public class ScheduleContentProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
         // 验证数据的合法性（非空）
-        if (contentValues.containsKey(Schedule.COLUMN_TITLE)) {
-            String title = contentValues.getAsString(Schedule.COLUMN_TITLE);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_TITLE)) {
+            String title = contentValues.getAsString(ScheduleDB.COLUMN_TITLE);
             if (title == null) {
                 throw new IllegalArgumentException("Title is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_LOCATE)) {
-            String locate = contentValues.getAsString(Schedule.COLUMN_LOCATE);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_LOCATE)) {
+            String locate = contentValues.getAsString(ScheduleDB.COLUMN_LOCATE);
             if (locate == null) {
                 throw new IllegalArgumentException("Locate is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_TIME_SLOT)) {
-            String time_slot = contentValues.getAsString(Schedule.COLUMN_TIME_SLOT);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_TIME_SLOT)) {
+            String time_slot = contentValues.getAsString(ScheduleDB.COLUMN_TIME_SLOT);
             if (time_slot == null) {
                 throw new IllegalArgumentException("Time_slot is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_BEGIN_TIME)) {
-            String begin_time = contentValues.getAsString(Schedule.COLUMN_BEGIN_TIME);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_BEGIN_TIME)) {
+            String begin_time = contentValues.getAsString(ScheduleDB.COLUMN_BEGIN_TIME);
             if (begin_time == null) {
                 throw new IllegalArgumentException("Begin_time is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_END_TIME)) {
-            String end_time = contentValues.getAsString(Schedule.COLUMN_END_TIME);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_END_TIME)) {
+            String end_time = contentValues.getAsString(ScheduleDB.COLUMN_END_TIME);
             if (end_time == null) {
                 throw new IllegalArgumentException("End_time is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_REPEAT)) {
-            String repeat = contentValues.getAsString(Schedule.COLUMN_REPEAT);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_REPEAT)) {
+            String repeat = contentValues.getAsString(ScheduleDB.COLUMN_REPEAT);
             if (repeat == null) {
                 throw new IllegalArgumentException("Repeat is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_IMPORTANT)) {
-            String important = contentValues.getAsString(Schedule.COLUMN_IMPORTANT);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_IMPORTANT)) {
+            String important = contentValues.getAsString(ScheduleDB.COLUMN_IMPORTANT);
             if (important == null) {
                 throw new IllegalArgumentException("Important is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_ACCOUNT)) {
-            String account = contentValues.getAsString(Schedule.COLUMN_ACCOUNT);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_ACCOUNT)) {
+            String account = contentValues.getAsString(ScheduleDB.COLUMN_ACCOUNT);
             if (account == null) {
                 throw new IllegalArgumentException("Account is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_DESCRIPTION)) {
-            String description = contentValues.getAsString(Schedule.COLUMN_DESCRIPTION);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_DESCRIPTION)) {
+            String description = contentValues.getAsString(ScheduleDB.COLUMN_DESCRIPTION);
             if (description == null) {
                 throw new IllegalArgumentException("Description is required");
             }
         }
-        if (contentValues.containsKey(Schedule.COLUMN_TIME_ZONE)) {
-            String time_zone = contentValues.getAsString(Schedule.COLUMN_TIME_ZONE);
+        if (contentValues.containsKey(ScheduleDB.COLUMN_TIME_ZONE)) {
+            String time_zone = contentValues.getAsString(ScheduleDB.COLUMN_TIME_ZONE);
             if (time_zone == null) {
                 throw new IllegalArgumentException("Time_zone is required");
             }
@@ -276,15 +277,15 @@ public class ScheduleContentProvider extends ContentProvider {
         int result;
         switch (match) {
             case SCHEDULES_ID:
-                result = database.update(Schedule.TABLE_NAME, contentValues, s, strings);
+                result = database.update(ScheduleDB.TABLE_NAME, contentValues, s, strings);
                 if (result != 0) {
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
                 return result;
             case SCHEDULE_ID:
-                s = Schedule._ID + " = ?";
+                s = ScheduleDB._ID + " = ?";
                 strings = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                result = database.update(Schedule.TABLE_NAME, contentValues, s, strings);
+                result = database.update(ScheduleDB.TABLE_NAME, contentValues, s, strings);
                 if (result != 0) {
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
