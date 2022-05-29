@@ -65,9 +65,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         initView();
         initData();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); // 设置状态栏颜色
         getReadPermissions();
         Intent i = new Intent(this, SMSReceiverService.class);
         bindService(i,serviceConnection,BIND_AUTO_CREATE);
+
     }
 
     /**
