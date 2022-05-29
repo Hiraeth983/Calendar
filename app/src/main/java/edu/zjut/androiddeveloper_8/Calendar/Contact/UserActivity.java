@@ -1,7 +1,6 @@
 package edu.zjut.androiddeveloper_8.Calendar.Contact;
 
 
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
@@ -28,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Currency;
@@ -55,6 +55,8 @@ public class UserActivity extends AppCompatActivity implements LoaderManager.Loa
             return false;
         }
     };
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -89,6 +91,16 @@ public class UserActivity extends AppCompatActivity implements LoaderManager.Loa
         telephoneEditText.setOnTouchListener(onTouchListener);
         workplaceEditText.setOnTouchListener(onTouchListener);
         addressEditText.setOnTouchListener(onTouchListener);
+
+        FloatingActionButton floatButton1 = findViewById(R.id.fab);
+        floatButton1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View v){
+                saveContact();
+                if (hasAllRequiredValues) finish();
+            }
+        });
     }
 
     // 设置菜单

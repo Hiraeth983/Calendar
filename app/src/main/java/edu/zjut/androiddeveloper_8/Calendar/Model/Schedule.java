@@ -151,7 +151,8 @@ public class Schedule {
         result += "ID：" + this._id + "\n";
         result += "标题：" + this.title + "\n";
         result += "开始时间：" + this.begin_time + "\n";
-        result += "内容：" + this.description+"\n";
+        result += "结束时间：" + this.end_time + "\n";
+        result += "内容：" + this.description;
         return result;
     }
 }
