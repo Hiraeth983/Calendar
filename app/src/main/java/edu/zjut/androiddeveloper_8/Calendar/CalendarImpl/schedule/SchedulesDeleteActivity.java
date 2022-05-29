@@ -3,24 +3,24 @@ package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule;
 import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.getDateFormatter;
 import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.parseDateFormatter;
 
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.app.NavUtils;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,38 +29,43 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 import edu.zjut.androiddeveloper_8.Calendar.Adapter.ScheduleAdapter;
+import edu.zjut.androiddeveloper_8.Calendar.Adapter.ScheduleDeleteAdapter;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.base.activity.BaseActivity;
-import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.custom.CustomActivity;
 import edu.zjut.androiddeveloper_8.Calendar.DB.ScheduleDB;
 import edu.zjut.androiddeveloper_8.Calendar.Model.Schedule;
 import edu.zjut.androiddeveloper_8.Calendar.R;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.LunarCalendarFestivalUtils;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter;
 
-public class SchedulesShowActivity extends BaseActivity {
+public class SchedulesDeleteActivity extends BaseActivity {
 
     ImageView backMainImageView;
+
+    ImageView deleteCheckedImageView;
 
     SearchView searchScheduleSearchView;
 
     RecyclerView mRecyclerView;
 
-    FloatingActionButton addSchedule;
-
-    // 用于定位给当前日期位置
-    int currentPosition = -1;
+    TextView mTitle;
 
     private List<Object> scheduleList = new ArrayList<>();
 
+    private List<Integer> checkedScheduleList = new ArrayList<>();
+
+    Context context = this;
+
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_schedule_all;
+        return R.layout.activity_schedule_delete;
     }
 
     @Override
     protected void initView() {
+        mTitle = findViewById(R.id.title_schedule_delete);
         backMainImageView = findViewById(R.id.back_main);
         backMainImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,19 +74,96 @@ public class SchedulesShowActivity extends BaseActivity {
             }
         });
 
+        deleteCheckedImageView = findViewById(R.id.ib_delete_schedules);
+        deleteCheckedImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteCheckedSchedules();
+            }
+        });
+
         searchScheduleSearchView = findViewById(R.id.ib_search);
         setupSearchView();
 
         mRecyclerView = findViewById(R.id.schedule_recycler_view_all);
+    }
 
-        addSchedule = findViewById(R.id.addSchedule);
-        addSchedule.setOnClickListener(new View.OnClickListener() {
+    @Override
+    protected void initData() {
+        init();
+    }
+
+    // 数据的获取
+    public void init() {
+        // 自定义参数列表
+        String[] projection = {ScheduleDB._ID,
+                ScheduleDB.COLUMN_TITLE,
+                ScheduleDB.COLUMN_BEGIN_TIME,
+                ScheduleDB.COLUMN_END_TIME
+        };
+        // 获取所有日程信息
+        Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, null, null, "begin_time");
+        // 日程列表初始化
+        scheduleList = toScheduleList(cursor);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        ScheduleDeleteAdapter scheduleDeleteAdapter = new ScheduleDeleteAdapter(scheduleList);
+        scheduleDeleteAdapter.setOnItemClickListener(new OnItemClickListener() {
+
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SchedulesShowActivity.this, ScheduleActivity.class);
-                startActivity(intent);
+            public void onItemClick(View view, int position) {
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+            }
+
+            @SuppressLint("SetTextI18n")
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onItemChecked(CompoundButton compoundButton, boolean isChecked, int position) {
+                Schedule s = (Schedule) scheduleList.get(position);
+//                Toast.makeText(context, "位置" + position + "  " + s.get_id(), Toast.LENGTH_SHORT).show();
+                if (!isChecked) {
+                    // 从选中列表中移除
+                    checkedScheduleList.removeIf(new Predicate<Integer>() {
+                        @Override
+                        public boolean test(Integer integer) {
+                            return integer.equals(s.get_id());
+                        }
+                    });
+                    compoundButton.setChecked(false);
+                } else {
+                    // 添加到选中列表中
+//                    Toast.makeText(context, "id:" + s.get_id(), Toast.LENGTH_SHORT).show();
+                    checkedScheduleList.add((Integer) s.get_id());
+                    compoundButton.setChecked(true);
+                }
+                mTitle.setText("已选择 " + checkedScheduleList.size() + " 项");
+//                Toast.makeText(context, "list大小" + checkedScheduleList.size(), Toast.LENGTH_SHORT).show();
             }
         });
+        mRecyclerView.setAdapter(scheduleDeleteAdapter);
+    }
+
+    // 删除选中日程
+    public void deleteCheckedSchedules() {
+        for (int i = 0; i < checkedScheduleList.size(); i++) {
+            int id = (int) checkedScheduleList.get(i);
+//            Toast.makeText(context, id + "", Toast.LENGTH_SHORT).show();
+            Uri newUri = ContentUris.withAppendedId(ScheduleDB.CONTENT_URI, id);
+//            Toast.makeText(context, newUri + "", Toast.LENGTH_SHORT).show();
+            int num = getContentResolver().delete(newUri, null, null);
+            if (num != 1) {
+                Toast.makeText(context, "删除失败！", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        Toast.makeText(context, "删除成功！", Toast.LENGTH_SHORT).show();
+        finish();
+
+
     }
 
     // 设置搜索框监听逻辑
@@ -122,29 +204,6 @@ public class SchedulesShowActivity extends BaseActivity {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(thisContext);
                 mRecyclerView.setLayoutManager(layoutManager);
                 ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
-                scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(SchedulesShowActivity.this, ScheduleShowActivity.class);
-                        Schedule s = (Schedule) scheduleList.get(position);
-                        Uri newUri = ContentUris.withAppendedId(ScheduleDB.CONTENT_URI, s.get_id());
-                        Log.i("newUri", newUri + "");
-
-                        intent.setData(newUri);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onItemLongClick(View view) {
-                        Intent intent = new Intent(SchedulesShowActivity.this, SchedulesDeleteActivity.class);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onItemChecked(CompoundButton compoundButton, boolean isChecked, int position) {
-
-                    }
-                });
                 mRecyclerView.setAdapter(scheduleAdapter);
                 return false;
             }
@@ -168,29 +227,6 @@ public class SchedulesShowActivity extends BaseActivity {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(thisContext);
                 mRecyclerView.setLayoutManager(layoutManager);
                 ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
-                scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(SchedulesShowActivity.this, ScheduleShowActivity.class);
-                        Schedule s = (Schedule) scheduleList.get(position);
-                        Uri newUri = ContentUris.withAppendedId(ScheduleDB.CONTENT_URI, s.get_id());
-                        Log.i("newUri", newUri + "");
-
-                        intent.setData(newUri);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onItemLongClick(View view) {
-                        Intent intent = new Intent(SchedulesShowActivity.this, SchedulesDeleteActivity.class);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onItemChecked(CompoundButton compoundButton, boolean isChecked, int position) {
-
-                    }
-                });
                 mRecyclerView.setAdapter(scheduleAdapter);
                 return false;
             }
@@ -199,61 +235,6 @@ public class SchedulesShowActivity extends BaseActivity {
         searchScheduleSearchView.setSubmitButtonEnabled(false);
         //查询提示语句
         searchScheduleSearchView.setQueryHint("请输入要查询的内容");
-    }
-
-    @Override
-    protected void initData() {
-        init();
-    }
-
-    // 数据的获取
-    public void init() {
-        // 自定义参数列表
-        String[] projection = {ScheduleDB._ID,
-                ScheduleDB.COLUMN_TITLE,
-                ScheduleDB.COLUMN_BEGIN_TIME,
-                ScheduleDB.COLUMN_END_TIME
-        };
-        // 获取所有日程信息
-        Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, null, null, "begin_time");
-        // 日程列表初始化
-        scheduleList = toScheduleList(cursor);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
-        scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(SchedulesShowActivity.this, ScheduleShowActivity.class);
-                Schedule s = (Schedule) scheduleList.get(position);
-                Uri newUri = ContentUris.withAppendedId(ScheduleDB.CONTENT_URI, s.get_id());
-                Log.i("newUri", newUri + "");
-
-                intent.setData(newUri);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onItemLongClick(View view) {
-                Intent intent = new Intent(SchedulesShowActivity.this, SchedulesDeleteActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onItemChecked(CompoundButton compoundButton, boolean isChecked, int position) {
-
-            }
-        });
-
-        mRecyclerView.setAdapter(scheduleAdapter);
-        // 定位给当前日期的位置,防止今日无数据使得position为-1报错
-        mRecyclerView.smoothScrollToPosition(currentPosition >= 0 ? currentPosition : 0);
-    }
-
-    // 在全部日程页面按下返回键
-    @Override
-    public void onBackPressed() {
-        finish();
     }
 
     public List<Object> toScheduleList(Cursor cursor) {
@@ -275,13 +256,6 @@ public class SchedulesShowActivity extends BaseActivity {
                 String title = cursor.getString(titleIndex);
                 String beginTime = cursor.getString(beginTimeIndex);
                 String endTime = cursor.getString(endTimeIndex);
-
-                // 获取当前日期日程信息 position 因前期日期数据格式不规范，故多做一种判断，离谱！！
-                if (currentDate.equals(beginTime.substring(0, 10)) || currentDateOfChina.equals(beginTime.substring(0, 10))) {
-                    // 当前list的大小作为位置即可且只需赋值一次
-                    if (currentPosition == -1)
-                        currentPosition = temp.size();
-                }
 
                 // 开始时间变化到下一天的情况
                 if (!beginTime.substring(0, 10).equals(flag)) {
@@ -316,4 +290,9 @@ public class SchedulesShowActivity extends BaseActivity {
         init();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        checkedScheduleList.clear();
+    }
 }

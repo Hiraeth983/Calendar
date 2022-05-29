@@ -1,5 +1,6 @@
 package edu.zjut.androiddeveloper_8.Calendar.Adapter;
 
+
 import android.content.ContentUris;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,12 +26,12 @@ import edu.zjut.androiddeveloper_8.Calendar.DB.ScheduleDB;
 import edu.zjut.androiddeveloper_8.Calendar.Model.Schedule;
 import edu.zjut.androiddeveloper_8.Calendar.R;
 
-public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ScheduleDeleteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Object> mScheduleList;
 
     private OnItemClickListener mClickListener;
 
-    public ScheduleAdapter(List<Object> mScheduleList) {
+    public ScheduleDeleteAdapter(List<Object> mScheduleList) {
         this.mScheduleList = mScheduleList;
     }
 
@@ -44,7 +47,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_date, parent, false);
             return new DateHolder(view);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_schedule, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_delete, parent, false);
 
             return new ScheduleHolder(view, mClickListener);
         }
@@ -86,10 +89,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    class ScheduleHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
+    class ScheduleHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         TextView begin_time;
         TextView end_time;
         TextView title;
+        CheckBox checked;
         private OnItemClickListener mListener;// 声明自定义的接口
 
         public ScheduleHolder(@NonNull View itemView, OnItemClickListener listener) {
@@ -98,30 +102,24 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             begin_time = (TextView) itemView.findViewById(R.id.item_begin_time);
             end_time = (TextView) itemView.findViewById(R.id.item_end_time);
             title = (TextView) itemView.findViewById(R.id.item_title);
+            checked = (CheckBox) itemView.findViewById(R.id.multi);
 
-            // 添加点击监听，跳转到日程查看界面
-            begin_time.setOnClickListener(this);
-            end_time.setOnClickListener(this);
-            title.setOnClickListener(this);
-
-            // 长按监听
-            title.setOnLongClickListener(this);
-            title.setOnLongClickListener(this);
-            title.setOnLongClickListener(this);
+            checked.setOnCheckedChangeListener(this);
         }
 
         @Override
         public void onClick(View view) {
             // getPosition()为ViewHolder自带的一个方法，用来获取RecyclerView当前的位置，将此作为参数，传出去
             mListener.onItemClick(view, getLayoutPosition());
+
         }
 
         @Override
-        public boolean onLongClick(View view) {
-            mListener.onItemLongClick(view);
-            return false;
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            mListener.onItemChecked(compoundButton, b, getLayoutPosition());
         }
     }
 }
+
 
 

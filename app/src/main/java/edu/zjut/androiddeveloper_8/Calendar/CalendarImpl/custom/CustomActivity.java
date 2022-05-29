@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -347,6 +348,16 @@ public class CustomActivity extends BaseActivity implements
 
                 intent.setData(newUri);
                 startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+
+            }
+
+            @Override
+            public void onItemChecked(CompoundButton compoundButton, boolean isChecked,int position) {
+
             }
         });
         mRecyclerView.setAdapter(scheduleAdapter);

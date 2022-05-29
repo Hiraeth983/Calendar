@@ -33,6 +33,7 @@
         <activity android:name=".CalendarImpl.schedule.ScheduleActivity" />
         <activity android:name=".CalendarImpl.schedule.ScheduleShowActivity" />
         <activity android:name=".CalendarImpl.schedule.SchedulesShowActivity" />
+        <activity android:name=".CalendarImpl.schedule.SchedulesDeleteActivity" />
 
         <provider
             android:name=".ContentProvider.ScheduleContentProvider"

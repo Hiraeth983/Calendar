@@ -12,6 +12,7 @@
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/activity_mix.xml" value="0.13958333333333334" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/activity_schedule.xml" value="0.2" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/activity_schedule_all.xml" value="0.2" />
+        <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/activity_schedule_delete.xml" value="0.25364583333333335" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/activity_schedule_edit.xml" value="0.2" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/activity_test.xml" value="0.13958333333333334" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/custom_week_bar.xml" value="0.13958333333333334" />
@@ -21,6 +22,7 @@
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_article_group.xml" value="0.245018115942029" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_schedule.xml" value="0.2854251012145749" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_string.xml" value="0.245018115942029" />
+        <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_schedule_delete.xml" value="0.25364583333333335" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/time_picker.xml" value="0.25364583333333335" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/menu/modify.xml" value="0.25364583333333335" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/menu/search.xml" value="0.25364583333333335" />

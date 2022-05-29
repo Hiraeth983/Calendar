@@ -161,7 +161,7 @@ public class ScheduleActivity extends BaseActivity {
                         .setTitle("选择开始时间")
                         .showBackNow(false)
                         // 神奇的时间戳少八个小时，故自行加之
-                        .setDefaultTime(Calendar.getInstance().getTimeInMillis() + 60 * 60 * 8 * 1000)
+                        .setDefaultTime(Calendar.getInstance().getTimeInMillis())
                         .setMaxTime(0)
                         .setMinTime(0)
                         .setWrapSelectorWheel(false)
@@ -199,7 +199,7 @@ public class ScheduleActivity extends BaseActivity {
                         .setTitle("选择结束时间")
                         .showBackNow(false)
                         // 神奇的时间戳少八个小时，故自行加之
-                        .setDefaultTime(Calendar.getInstance().getTimeInMillis() + 60 * 60 * 8 * 1000)
+                        .setDefaultTime(Calendar.getInstance().getTimeInMillis())
                         .setMaxTime(0)
                         .setMinTime(0)
                         .setWrapSelectorWheel(false)
@@ -240,8 +240,8 @@ public class ScheduleActivity extends BaseActivity {
         if (currentUri == null) {
             mTitle.setText("新建日程");
             // 设置新建日程默认开始和结束时间，可能是时区问题导致时间慢八个小时
-            mBeginTime.setText(MyDateFormatter.getDateFormatter(new Date(new Date().getTime() + 8 * 60 * 60 * 1000), "yyyy-MM-dd HH:mm:ss"));
-            mEndTime.setText(MyDateFormatter.getDateFormatter(new Date(new Date().getTime() + 9 * 60 * 60 * 1000), "yyyy-MM-dd HH:mm:ss"));
+            mBeginTime.setText(MyDateFormatter.getDateFormatter(new Date(new Date().getTime()), "yyyy-MM-dd HH:mm:ss"));
+            mEndTime.setText(MyDateFormatter.getDateFormatter(new Date(new Date().getTime() + 60 * 60 * 1000), "yyyy-MM-dd HH:mm:ss"));
             // 获取当前地理位置
             getLocation();
         } else {
