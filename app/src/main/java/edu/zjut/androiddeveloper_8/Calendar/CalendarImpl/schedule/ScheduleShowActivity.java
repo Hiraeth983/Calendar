@@ -1,6 +1,7 @@
 package edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -83,6 +84,15 @@ public class ScheduleShowActivity extends BaseActivity {
         });
 
         mEditSchedule = findViewById(R.id.ib_edit_schedule);
+        mEditSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ScheduleShowActivity.this, ScheduleActivity.class);
+
+                intent.setData(mCurrentScheduleUri);
+                startActivity(intent);
+            }
+        });
 
         mDeleteSchedule = findViewById(R.id.ib_delete_schedule);
         mDeleteSchedule.setOnClickListener(new View.OnClickListener() {
