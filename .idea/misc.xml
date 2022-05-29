@@ -20,6 +20,14 @@
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_schedule.xml" value="0.2854251012145749" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/app/src/main/res/layout/item_list_string.xml" value="0.245018115942029" />
         <entry key="..\:/workspace/AndroidStudioWorkSpace/Calendar/calendarview/src/main/res/drawable/cv_bg_material.xml" value="0.1175" />
+        <entry key="app/src/main/res/layout/activity_contact.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_contract.xml" value="0.24739583333333334" />
+        <entry key="app/src/main/res/layout/activity_relationship.xml" value="0.24739583333333334" />
+        <entry key="app/src/main/res/layout/activity_user.xml" value="0.24739583333333334" />
+        <entry key="app/src/main/res/layout/activity_view_pager.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/view_contact.xml" value="0.24739583333333334" />
+        <entry key="app/src/main/res/menu/modify.xml" value="0.24739583333333334" />
+        <entry key="app/src/main/res/menu/search.xml" value="0.2" />
       </map>
     </option>
   </component>
