@@ -5,14 +5,18 @@ import static edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter.parseDa
 
 import android.app.AlertDialog;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.core.app.NavUtils;
@@ -38,7 +42,8 @@ public class SchedulesShowActivity extends BaseActivity {
 
     ImageView backMainImageView;
 
-    ImageView searchScheduleImageView;
+    //    ImageView searchScheduleImageView;
+    SearchView searchScheduleSearchView;
 
     RecyclerView mRecyclerView;
 
@@ -64,7 +69,8 @@ public class SchedulesShowActivity extends BaseActivity {
             }
         });
 
-        searchScheduleImageView = findViewById(R.id.ib_search);
+        searchScheduleSearchView = findViewById(R.id.ib_search);
+        setupSearchView();
 
         mRecyclerView = findViewById(R.id.schedule_recycler_view_all);
 
@@ -76,6 +82,101 @@ public class SchedulesShowActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    // 设置搜索框监听逻辑
+    private void setupSearchView() {
+        //设置搜索框直接展开显示。左侧有放大镜(在搜索框中) 右侧有叉叉 可以关闭搜索框
+        //searchScheduleSearchView.setIconified(false);
+        //设置搜索框直接展开显示。左侧有放大镜(在搜索框外) 右侧无叉叉 有输入内容后有叉叉 不能关闭搜索框
+        //searchScheduleSearchView.setIconifiedByDefault(false);
+        //设置搜索框直接展开显示。左侧有无放大镜(在搜索框中) 右侧无叉叉 有输入内容后有叉叉 不能关闭搜索框
+        searchScheduleSearchView.onActionViewExpanded();
+
+        // 自定义参数列表
+        String[] projection = {ScheduleDB._ID,
+                ScheduleDB.COLUMN_TITLE,
+                ScheduleDB.COLUMN_BEGIN_TIME,
+                ScheduleDB.COLUMN_END_TIME
+        };
+        Context thisContext = this;
+
+        //为 SearchView 中的用户操作设置侦听器。
+        searchScheduleSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                String selection;
+                String[] args;
+                if (TextUtils.isEmpty(s)) {
+                    selection = null;
+                    args = null;
+                } else {
+                    selection = ScheduleDB.COLUMN_TITLE + " like ? or " + ScheduleDB.COLUMN_DESCRIPTION + " like ?";
+                    args = new String[]{"%" + s + "%", "%" + s + "%"};
+                }
+                // 读取数据库信息及更新视图
+                // 获取所有日程信息
+                Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, selection, args, "begin_time");
+                // 日程列表初始化
+                scheduleList = toScheduleList(cursor);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(thisContext);
+                mRecyclerView.setLayoutManager(layoutManager);
+                ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
+                scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(SchedulesShowActivity.this, ScheduleShowActivity.class);
+                        Schedule s = (Schedule) scheduleList.get(position);
+                        Uri newUri = ContentUris.withAppendedId(ScheduleDB.CONTENT_URI, s.get_id());
+                        Log.i("newUri", newUri + "");
+
+                        intent.setData(newUri);
+                        startActivity(intent);
+                    }
+                });
+                mRecyclerView.setAdapter(scheduleAdapter);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                String selection;
+                String[] args;
+                if (TextUtils.isEmpty(s)) {
+                    selection = null;
+                    args = null;
+                } else {
+                    selection = ScheduleDB.COLUMN_TITLE + " like ? or " + ScheduleDB.COLUMN_DESCRIPTION + " like ?";
+                    args = new String[]{"%" + s + "%", "%" + s + "%"};
+                }
+                // 读取数据库信息及更新视图
+                // 获取所有日程信息
+                Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, selection, args, "begin_time");
+                // 日程列表初始化
+                scheduleList = toScheduleList(cursor);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(thisContext);
+                mRecyclerView.setLayoutManager(layoutManager);
+                ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
+                scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(SchedulesShowActivity.this, ScheduleShowActivity.class);
+                        Schedule s = (Schedule) scheduleList.get(position);
+                        Uri newUri = ContentUris.withAppendedId(ScheduleDB.CONTENT_URI, s.get_id());
+                        Log.i("newUri", newUri + "");
+
+                        intent.setData(newUri);
+                        startActivity(intent);
+                    }
+                });
+                mRecyclerView.setAdapter(scheduleAdapter);
+                return false;
+            }
+        });
+        //当查询非空时启用显示提交按钮
+        searchScheduleSearchView.setSubmitButtonEnabled(false);
+        //查询提示语句
+        searchScheduleSearchView.setQueryHint("请输入要查询的内容");
     }
 
     @Override
@@ -111,9 +212,10 @@ public class SchedulesShowActivity extends BaseActivity {
             }
         });
         mRecyclerView.setAdapter(scheduleAdapter);
-        // 定位给当前日期的位置
-        mRecyclerView.smoothScrollToPosition(currentPosition);
+        // 定位给当前日期的位置,防止今日无数据使得position为-1报错
+        mRecyclerView.smoothScrollToPosition(currentPosition >= 0 ? currentPosition : 0);
     }
+
 
     // 在全部日程页面按下返回键
     @Override
@@ -155,7 +257,7 @@ public class SchedulesShowActivity extends BaseActivity {
                     String date = "";
                     // 使用工具类
                     // String 转化为 Date
-                    Date myDate = parseDateFormatter(beginTime,"yyyy-MM-dd");
+                    Date myDate = parseDateFormatter(beginTime, "yyyy-MM-dd");
                     LunarCalendarFestivalUtils festival = new LunarCalendarFestivalUtils();
                     festival.initLunarCalendarInfo(getDateFormatter(myDate, "yyyy-MM-dd"));
 
