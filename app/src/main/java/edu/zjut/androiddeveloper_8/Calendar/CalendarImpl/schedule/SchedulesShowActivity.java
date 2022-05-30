@@ -97,7 +97,8 @@ public class SchedulesShowActivity extends BaseActivity {
         String[] projection = {ScheduleDB._ID,
                 ScheduleDB.COLUMN_TITLE,
                 ScheduleDB.COLUMN_BEGIN_TIME,
-                ScheduleDB.COLUMN_END_TIME
+                ScheduleDB.COLUMN_END_TIME,
+                ScheduleDB.COLUMN_DESCRIPTION
         };
         Context thisContext = this;
 
@@ -212,7 +213,8 @@ public class SchedulesShowActivity extends BaseActivity {
         String[] projection = {ScheduleDB._ID,
                 ScheduleDB.COLUMN_TITLE,
                 ScheduleDB.COLUMN_BEGIN_TIME,
-                ScheduleDB.COLUMN_END_TIME
+                ScheduleDB.COLUMN_END_TIME,
+                ScheduleDB.COLUMN_DESCRIPTION
         };
         // 获取所有日程信息
         Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, null, null, "begin_time");
@@ -269,12 +271,14 @@ public class SchedulesShowActivity extends BaseActivity {
                 int titleIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_TITLE);
                 int beginTimeIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_BEGIN_TIME);
                 int endTimeIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_END_TIME);
+                int descriptionIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_DESCRIPTION);
 
                 // 获取对应值
                 String _id = cursor.getString(_idIndex);
                 String title = cursor.getString(titleIndex);
                 String beginTime = cursor.getString(beginTimeIndex);
                 String endTime = cursor.getString(endTimeIndex);
+                String description = cursor.getString(descriptionIndex).equals("") ? "(暂无日程内容)" : cursor.getString(descriptionIndex);
 
                 // 获取当前日期日程信息 position 因前期日期数据格式不规范，故多做一种判断，离谱！！
                 if (currentDate.equals(beginTime.substring(0, 10)) || currentDateOfChina.equals(beginTime.substring(0, 10))) {
@@ -304,7 +308,7 @@ public class SchedulesShowActivity extends BaseActivity {
                 }
 
                 // 规范化数据并插入list
-                temp.add(new Schedule(Integer.parseInt(_id), title, beginTime.substring(11, 16), endTime.substring(11, 16)));
+                temp.add(new Schedule(Integer.parseInt(_id), title, beginTime.substring(11, 16), endTime.substring(11, 16), description));
             }
         }
         return temp;

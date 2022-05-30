@@ -59,6 +59,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ScheduleHolder) holder).begin_time.setText(schedule.getBegin_time());
             ((ScheduleHolder) holder).end_time.setText(schedule.getEnd_time());
             ((ScheduleHolder) holder).title.setText(schedule.getTitle());
+            ((ScheduleHolder) holder).description.setText(schedule.getDescription());
         }
     }
 
@@ -90,6 +91,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView begin_time;
         TextView end_time;
         TextView title;
+        TextView description;
         private OnItemClickListener mListener;// 声明自定义的接口
 
         public ScheduleHolder(@NonNull View itemView, OnItemClickListener listener) {
@@ -98,16 +100,19 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             begin_time = (TextView) itemView.findViewById(R.id.item_begin_time);
             end_time = (TextView) itemView.findViewById(R.id.item_end_time);
             title = (TextView) itemView.findViewById(R.id.item_title);
+            description = (TextView) itemView.findViewById(R.id.item_description);
 
             // 添加点击监听，跳转到日程查看界面
             begin_time.setOnClickListener(this);
             end_time.setOnClickListener(this);
             title.setOnClickListener(this);
+            description.setOnClickListener(this);
 
             // 长按监听
             title.setOnLongClickListener(this);
             title.setOnLongClickListener(this);
             title.setOnLongClickListener(this);
+            description.setOnLongClickListener(this);
         }
 
         @Override

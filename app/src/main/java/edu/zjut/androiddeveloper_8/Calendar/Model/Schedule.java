@@ -34,11 +34,12 @@ public class Schedule {
     public Schedule() {
     }
 
-    public Schedule(int _id, String title, String begin_time, String end_time) {
+    public Schedule(int _id, String title, String begin_time, String end_time,String description) {
         this._id = _id;
         this.title = title;
         this.begin_time = begin_time;
         this.end_time = end_time;
+        this.description = description;
 
     }
 

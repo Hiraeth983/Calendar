@@ -62,6 +62,7 @@ public class ScheduleDeleteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ((ScheduleHolder) holder).begin_time.setText(schedule.getBegin_time());
             ((ScheduleHolder) holder).end_time.setText(schedule.getEnd_time());
             ((ScheduleHolder) holder).title.setText(schedule.getTitle());
+            ((ScheduleHolder) holder).description.setText(schedule.getDescription());
         }
     }
 
@@ -93,6 +94,7 @@ public class ScheduleDeleteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView begin_time;
         TextView end_time;
         TextView title;
+        TextView description;
         CheckBox checked;
         private OnItemClickListener mListener;// 声明自定义的接口
 
@@ -102,6 +104,7 @@ public class ScheduleDeleteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             begin_time = (TextView) itemView.findViewById(R.id.item_begin_time);
             end_time = (TextView) itemView.findViewById(R.id.item_end_time);
             title = (TextView) itemView.findViewById(R.id.item_title);
+            description = (TextView) itemView.findViewById(R.id.item_description);
             checked = (CheckBox) itemView.findViewById(R.id.multi);
 
             checked.setOnCheckedChangeListener(this);

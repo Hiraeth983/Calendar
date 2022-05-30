@@ -289,15 +289,17 @@ public class CustomActivity extends BaseActivity implements
                 int titleIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_TITLE);
                 int beginTimeIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_BEGIN_TIME);
                 int endTimeIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_END_TIME);
+                int descriptionIndex = cursor.getColumnIndex(ScheduleDB.COLUMN_DESCRIPTION);
 
                 // 获取对应值
                 String _id = cursor.getString(_idIndex);
                 String title = cursor.getString(titleIndex);
                 String beginTime = cursor.getString(beginTimeIndex);
                 String endTime = cursor.getString(endTimeIndex);
+                String description = cursor.getString(descriptionIndex).equals("") ? "(暂无日程内容)" : cursor.getString(descriptionIndex);
 
                 // 规范化数据并插入list
-                temp.add(new Schedule(Integer.parseInt(_id), title, beginTime.substring(11, 16), endTime.substring(11, 16)));
+                temp.add(new Schedule(Integer.parseInt(_id), title, beginTime.substring(11, 16), endTime.substring(11, 16), description));
             }
         }
         return temp;
@@ -338,7 +340,8 @@ public class CustomActivity extends BaseActivity implements
         String[] projection = {ScheduleDB._ID,
                 ScheduleDB.COLUMN_TITLE,
                 ScheduleDB.COLUMN_BEGIN_TIME,
-                ScheduleDB.COLUMN_END_TIME
+                ScheduleDB.COLUMN_END_TIME,
+                ScheduleDB.COLUMN_DESCRIPTION
         };
         String selection = ScheduleDB.COLUMN_BEGIN_TIME + " between ? and ?";
         Log.i("time", date.toString() + "==========");
