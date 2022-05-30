@@ -158,7 +158,6 @@ public class SchedulesDeleteActivity extends BaseActivity {
                 Toast.makeText(context, "删除失败！", Toast.LENGTH_SHORT).show();
                 return;
             }
-
         }
         Toast.makeText(context, "删除成功！", Toast.LENGTH_SHORT).show();
         finish();
