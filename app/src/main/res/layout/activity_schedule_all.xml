@@ -61,6 +61,8 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
+                android:queryBackground="@null"
+                android:background="@drawable/corners_shape"
                 android:src="@drawable/ic_search"
                 app:tint="#000000" />
         </FrameLayout>

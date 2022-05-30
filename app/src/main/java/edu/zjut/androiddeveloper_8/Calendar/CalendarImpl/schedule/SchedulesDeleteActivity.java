@@ -172,6 +172,7 @@ public class SchedulesDeleteActivity extends BaseActivity {
         //searchScheduleSearchView.setIconifiedByDefault(false);
         //设置搜索框直接展开显示。左侧有无放大镜(在搜索框中) 右侧无叉叉 有输入内容后有叉叉 不能关闭搜索框
         searchScheduleSearchView.onActionViewExpanded();
+        searchScheduleSearchView.clearFocus();
 
         // 自定义参数列表
         String[] projection = {ScheduleDB._ID,

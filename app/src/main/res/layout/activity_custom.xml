@@ -210,6 +210,6 @@
         android:src="@drawable/ic_addcontact"
         app:elevation="10dp"
         app:fabSize="mini"
-        app:tint="@color/add_schedule_background" />
+        app:tint="@color/black" />
 
 </RelativeLayout>
