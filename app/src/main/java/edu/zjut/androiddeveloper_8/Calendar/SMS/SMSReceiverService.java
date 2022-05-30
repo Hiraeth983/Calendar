@@ -87,8 +87,8 @@ public class SMSReceiverService extends Service {
                 //发送模版
                 }else if ("添加日程".equals(content)){
                     String AddExp = "#日程标题:新建日程\n"+
-                            "#开始时间:1997-01-01 09:00:00\n"+
-                            "#结束时间:1997-01-01 10:00:00\n"+
+                            "#开始时间:1997-01-01\n"+
+                            "#结束时间:1997-01-01\n"+
                             "#日程内容:开发Android";
                     sendMultipartTextMessage(sender,"请按照以下模版编辑日程");
                     sendMultipartTextMessage(sender,AddExp);
@@ -186,8 +186,8 @@ public class SMSReceiverService extends Service {
         String important = "重要提醒";
         String account = "我的日历";
         String timeZone = "GMT+8:00 中国标准时间";
-        System.out.println("save:  "+endTime);
-        System.out.println("save: "+description);
+        beginTime += " 9:00:00";
+        endTime += " 10:00:00";
 
         // 当用户没有输入时
         if (TextUtils.isEmpty(title)

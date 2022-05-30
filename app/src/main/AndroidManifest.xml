@@ -33,6 +33,16 @@
             </intent-filter>
         </activity>
 
+<!--        <activity-->
+<!--            android:name=".Contact.ContactActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
         <service
             android:name=".SMS.SMSReceiverService"
             android:enabled="true"
@@ -41,6 +51,7 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".CalendarImpl.schedule.ScheduleActivity" />
+<!--        <activity android:name=".CalendarImpl.custom.CustomActivity" />-->
         <!-- <activity android:name=".mix.MixActivity" /> -->
         <activity android:name=".Contact.UserActivity" />
         <activity android:name=".Contact.ContactActivity" />

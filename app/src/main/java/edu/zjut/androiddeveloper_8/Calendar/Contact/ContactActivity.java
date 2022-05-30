@@ -38,7 +38,6 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
     public ListView listView;
     public MyCursorAdapter adapter;
     public static final int CONTACTLOADER = 0;
-    public Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +51,13 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
             public void onClick(View v) {
                 Intent intent = new Intent(ContactActivity.this, UserActivity.class);
                 startActivity(intent);
+            }
+        });
+        FloatingActionButton floatButton2 = findViewById(R.id.back);
+        floatButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -180,7 +186,6 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     protected void onDestroy() {
-        timer.cancel();
         super.onDestroy();
     }
 }

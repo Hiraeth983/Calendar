@@ -33,6 +33,7 @@ import java.util.Map;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.OnItemClickListener;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.ScheduleShowActivity;
 import edu.zjut.androiddeveloper_8.Calendar.CalendarImpl.schedule.SchedulesShowActivity;
+import edu.zjut.androiddeveloper_8.Calendar.Contact.ContactActivity;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.LunarCalendarFestivalUtils;
 import edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter;
 
@@ -131,6 +132,16 @@ public class CustomActivity extends BaseActivity implements
                 startActivity(intent);
             }
         });
+
+        FloatingActionButton floatButton1 = findViewById(R.id.contactManage);
+        floatButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomActivity.this, ContactActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         // 设置对应日期的日历图片 formatter.format(date)
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
@@ -256,7 +267,7 @@ public class CustomActivity extends BaseActivity implements
         mTextLunar.setText("今日");
     }
 
-    public List<Object> toScheduleList(Cursor cursor,Date _date) {
+    public List<Object> toScheduleList(Cursor cursor, Date _date) {
         List<Object> temp = new ArrayList<>();
         // 拼接日期字符串
         String date = "";
@@ -334,7 +345,7 @@ public class CustomActivity extends BaseActivity implements
         // 获取当日所有日程信息
         Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, selection, args, null);
         // 日程列表初始化
-        scheduleList = toScheduleList(cursor,date);
+        scheduleList = toScheduleList(cursor, date);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
@@ -356,7 +367,7 @@ public class CustomActivity extends BaseActivity implements
             }
 
             @Override
-            public void onItemChecked(CompoundButton compoundButton, boolean isChecked,int position) {
+            public void onItemChecked(CompoundButton compoundButton, boolean isChecked, int position) {
 
             }
         });
