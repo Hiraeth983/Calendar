@@ -161,8 +161,6 @@ public class SchedulesDeleteActivity extends BaseActivity {
         }
         Toast.makeText(context, "删除成功！", Toast.LENGTH_SHORT).show();
         finish();
-
-
     }
 
     // 设置搜索框监听逻辑
@@ -202,7 +200,36 @@ public class SchedulesDeleteActivity extends BaseActivity {
                 scheduleList = toScheduleList(cursor);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(thisContext);
                 mRecyclerView.setLayoutManager(layoutManager);
-                ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
+                ScheduleDeleteAdapter scheduleAdapter = new ScheduleDeleteAdapter(scheduleList);
+                scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                    }
+                    @Override
+                    public void onItemLongClick(View view) {
+                    }
+                    @SuppressLint("SetTextI18n")
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onItemChecked(CompoundButton compoundButton, boolean isChecked, int position) {
+                        Schedule s = (Schedule) scheduleList.get(position);
+                        if (!isChecked) {
+                            // 从选中列表中移除
+                            checkedScheduleList.removeIf(new Predicate<Integer>() {
+                                @Override
+                                public boolean test(Integer integer) {
+                                    return integer.equals(s.get_id());
+                                }
+                            });
+                            compoundButton.setChecked(false);
+                        } else {
+                            // 添加到选中列表中
+                            checkedScheduleList.add((Integer) s.get_id());
+                            compoundButton.setChecked(true);
+                        }
+                        mTitle.setText("已选择 " + checkedScheduleList.size() + " 项");
+                    }
+                });
                 mRecyclerView.setAdapter(scheduleAdapter);
                 return false;
             }
@@ -225,7 +252,36 @@ public class SchedulesDeleteActivity extends BaseActivity {
                 scheduleList = toScheduleList(cursor);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(thisContext);
                 mRecyclerView.setLayoutManager(layoutManager);
-                ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);
+                ScheduleDeleteAdapter scheduleAdapter = new ScheduleDeleteAdapter(scheduleList);
+                scheduleAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                    }
+                    @Override
+                    public void onItemLongClick(View view) {
+                    }
+                    @SuppressLint("SetTextI18n")
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onItemChecked(CompoundButton compoundButton, boolean isChecked, int position) {
+                        Schedule s = (Schedule) scheduleList.get(position);
+                        if (!isChecked) {
+                            // 从选中列表中移除
+                            checkedScheduleList.removeIf(new Predicate<Integer>() {
+                                @Override
+                                public boolean test(Integer integer) {
+                                    return integer.equals(s.get_id());
+                                }
+                            });
+                            compoundButton.setChecked(false);
+                        } else {
+                            // 添加到选中列表中
+                            checkedScheduleList.add((Integer) s.get_id());
+                            compoundButton.setChecked(true);
+                        }
+                        mTitle.setText("已选择 " + checkedScheduleList.size() + " 项");
+                    }
+                });
                 mRecyclerView.setAdapter(scheduleAdapter);
                 return false;
             }
