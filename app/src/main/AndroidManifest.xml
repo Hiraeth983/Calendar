@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -28,9 +32,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".SMS.SMSReceiverService"
+            android:enabled="true"
+            android:exported="true" />
+        <!-- <activity android:name=".MainActivity"> -->
         <activity android:name=".TestActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".CalendarImpl.schedule.ScheduleActivity" />
+        <!-- <activity android:name=".mix.MixActivity" /> -->
+        <activity android:name=".Contact.UserActivity" />
+        <activity android:name=".Contact.ContactActivity" />
         <activity android:name=".CalendarImpl.schedule.ScheduleShowActivity" />
         <activity android:name=".CalendarImpl.schedule.SchedulesShowActivity" />
         <activity android:name=".CalendarImpl.schedule.SchedulesDeleteActivity" />
@@ -39,7 +52,26 @@
             android:name=".ContentProvider.ScheduleContentProvider"
             android:authorities="edu.zjut.androiddeveloper_8.Calendar"
             android:exported="false" />
+
+        <provider
+            android:name=".Contact.db.MyContentProvider"
+            android:authorities="edu.zjut.androiddeveloper_8.Calendar.Contact"
+            android:exported="false" />
+
+
+        <receiver
+            android:name=".SMS.SMSBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".SMS.SMSReceiver" />
+
+
+
+
     </application>
-
-
 </manifest>

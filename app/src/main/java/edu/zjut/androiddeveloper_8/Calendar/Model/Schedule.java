@@ -2,6 +2,8 @@ package edu.zjut.androiddeveloper_8.Calendar.Model;
 
 import android.provider.BaseColumns;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 public class Schedule {
@@ -140,5 +142,17 @@ public class Schedule {
 
     public void setTime_zone(String time_zone) {
         this.time_zone = time_zone;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        String result = "";
+        result += "ID：" + this._id + "\n";
+        result += "标题：" + this.title + "\n";
+        result += "开始时间：" + this.begin_time + "\n";
+        result += "结束时间：" + this.end_time + "\n";
+        result += "内容：" + this.description;
+        return result;
     }
 }
