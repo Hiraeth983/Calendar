@@ -341,11 +341,13 @@ public class CustomActivity extends BaseActivity implements
                 ScheduleDB.COLUMN_END_TIME
         };
         String selection = ScheduleDB.COLUMN_BEGIN_TIME + " between ? and ?";
+        Log.i("time", date.toString() + "==========");
         String[] args = {MyDateFormatter.getStartTime(date), MyDateFormatter.getEndTime(date)};
         // 获取当日所有日程信息
         Cursor cursor = getContentResolver().query(ScheduleDB.CONTENT_URI, projection, selection, args, null);
         // 日程列表初始化
         scheduleList = toScheduleList(cursor, date);
+        Log.i("time", scheduleList.size() + "==========");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(scheduleList);

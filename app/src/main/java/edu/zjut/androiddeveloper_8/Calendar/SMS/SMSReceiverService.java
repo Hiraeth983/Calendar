@@ -26,6 +26,7 @@ import edu.zjut.androiddeveloper_8.Calendar.Contact.adapter.MyCursorAdapter;
 import edu.zjut.androiddeveloper_8.Calendar.Contact.db.Contact;
 import edu.zjut.androiddeveloper_8.Calendar.DB.ScheduleDB;
 import edu.zjut.androiddeveloper_8.Calendar.Model.Schedule;
+import edu.zjut.androiddeveloper_8.Calendar.Utils.MyDateFormatter;
 
 public class SMSReceiverService extends Service {
     SMSBroadcastReceiver mSMSBroadcastReceiver;
@@ -99,13 +100,13 @@ public class SMSReceiverService extends Service {
                     for (String a:AddCalendar) {
                         System.out.println("编辑前："+a);
                     }
-                    String calendarTitle = AddCalendar[1].substring(AddCalendar[1].indexOf(":")+1);
+                    String calendarTitle = AddCalendar[1].substring(AddCalendar[1].indexOf(":")+1).trim();
                     System.out.println("编辑后："+calendarTitle);
-                    String calendarStartTime = AddCalendar[2].substring(AddCalendar[2].indexOf(":")+1);
+                    String calendarStartTime = AddCalendar[2].substring(AddCalendar[2].indexOf(":")+1).trim();
                     System.out.println("编辑后："+calendarStartTime);
-                    String calendarEndTime = AddCalendar[3].substring(AddCalendar[3].indexOf(":")+1);
+                    String calendarEndTime = AddCalendar[3].substring(AddCalendar[3].indexOf(":")+1).trim();
                     System.out.println("编辑后："+calendarEndTime);
-                    String calendarContent = AddCalendar[4].substring(AddCalendar[4].indexOf(":")+1);
+                    String calendarContent = AddCalendar[4].substring(AddCalendar[4].indexOf(":")+1).trim();
                     System.out.println("编辑后："+calendarContent);
                     if (saveSchedule(calendarTitle,calendarStartTime,calendarEndTime,calendarContent)){
                         sendMultipartTextMessage(sender,"日程添加成功！");
@@ -186,8 +187,16 @@ public class SMSReceiverService extends Service {
         String important = "重要提醒";
         String account = "我的日历";
         String timeZone = "GMT+8:00 中国标准时间";
-        beginTime += " 9:00:00";
-        endTime += " 10:00:00";
+        beginTime = beginTime+" 09:00:00";
+        endTime = endTime+" 10:00:00";
+        Date begin = MyDateFormatter.parseDateFormatter(beginTime,"yyyy-MM-dd HH:mm:ss");
+        Date end = MyDateFormatter.parseDateFormatter(endTime,"yyyy-MM-dd HH:mm:ss");
+//        Log.i("date1:",begin.toString());
+//        Log.i("date2:",end.toString());
+
+
+        beginTime = MyDateFormatter.getDateFormatter(begin,"yyyy-MM-dd HH:mm:ss");
+        endTime = MyDateFormatter.getDateFormatter(end,"yyyy-MM-dd HH:mm:ss");
 
         // 当用户没有输入时
         if (TextUtils.isEmpty(title)

@@ -9,12 +9,12 @@ public class MyDateFormatter {
 
     // TODO 时间格式被固定
     public static String getStartTime(Date date) {
-        return getDateFormatter(date, "yyyy-MM-dd") + " 00:00";
+        return getDateFormatter(date, "yyyy-MM-dd") + " 00:00:00";
     }
 
 
     public static String getEndTime(Date date) {
-        return getDateFormatter(date, "yyyy-MM-dd") + " 23:59";
+        return getDateFormatter(date, "yyyy-MM-dd") + " 23:59:59";
     }
 
     public static String getDateFormatter(Date date, String format) {
