@@ -48,8 +48,6 @@
             android:enabled="true"
             android:exported="true" />
         <!-- <activity android:name=".MainActivity"> -->
-        <activity android:name=".TestActivity" />
-        <activity android:name=".CalendarActivity" />
         <activity android:name=".CalendarImpl.schedule.ScheduleActivity" />
 <!--        <activity android:name=".CalendarImpl.custom.CustomActivity" />-->
         <!-- <activity android:name=".mix.MixActivity" /> -->

@@ -558,14 +558,15 @@ public class ScheduleActivity extends BaseActivity {
 //                Toast.makeText(this, "获取地址信息：" + result.toString(), Toast.LENGTH_LONG).show();
                 // 处理位置信息 例如：浙江省杭州市留下街道留和路家和西苑
                 Address address = result.get(0);
-                String province = address.getAdminArea();
-                String city = address.getLocality();
-                String street = address.getSubAdminArea();
-                String road = address.getThoroughfare();
-                String feature = address.getFeatureName();
-                String locate = province + city + street + road + feature;
+//                String province = address.getAdminArea();
+//                String city = address.getLocality();
+//                String street = address.getSubAdminArea();
+//                String road = address.getThoroughfare();
+//                String feature = address.getFeatureName();
+//                String locate = province + city + street + road + feature;
                 // 设置界面中位置信息
-                mLocate.setText(locate);
+                mLocate.setText(address.getAddressLine(0));
+                Toast.makeText(this, "获取地址信息：" + address.getAddressLine(0), Toast.LENGTH_LONG).show();
                 Log.v("TAG", "获取地址信息：" + result.toString());
             }
         } catch (Exception e) {

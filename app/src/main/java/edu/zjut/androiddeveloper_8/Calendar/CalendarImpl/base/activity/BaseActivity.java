@@ -25,7 +25,6 @@ import androidx.core.content.ContextCompat;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import edu.zjut.androiddeveloper_8.Calendar.MainActivity;
 import edu.zjut.androiddeveloper_8.Calendar.SMS.SMSReceiverService;
 
 /**
